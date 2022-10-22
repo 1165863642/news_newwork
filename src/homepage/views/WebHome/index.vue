@@ -1,41 +1,66 @@
 <template>
   <div>
+    <div class="top-part">
+      <img :src="topImage" style="width: 49%;"> <img :src="topImage" style="width: 49%;">
+    </div>
     <el-row :gutter="20">
-      <el-col :span="12" style="height:400px;margin-bottom: 20px;">
+      <el-col :span="12" class="col-item">
         <el-carousel :interval="5000" height="400px" arrow="never" direction="vertical">
           <el-carousel-item v-for="item in slideshowList" :key="item.id">
             <img style="width: 100%;" :src="item.imageUrl">
           </el-carousel-item>
         </el-carousel>
       </el-col>
-      <el-col :span="12" style="height:400px;margin-bottom: 20px;">
+      <el-col :span="12" class="col-item">
         <el-tabs v-model="navigationBar1.nameValue" type="card" @tab-click="handleClick1">
           <el-tab-pane v-for="(item) in navigationBar1.list" :key="item.key" :label="item.title" :name="item.key">
-            <el-skeleton />
+            <div class="news-list">
+              <div v-for="(item, index) in staffData" :key="index">
+                <el-image v-if="index == 0" fit="fill"
+                  src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg"
+                  style="float: left" />
+                <a :href="item.href" target="_blank">{{ item.name }}</a>
+              </div>
+            </div>
+
           </el-tab-pane>
         </el-tabs>
 
       </el-col>
-      <el-col :span="12" style="height:400px;margin-bottom: 20px;">
+      <el-col :span="12" class="col-item">
         <el-tabs v-model="navigationBar2.nameValue" type="card" @tab-click="handleClick2">
           <el-tab-pane v-for="(item) in navigationBar2.list" :key="item.key" :label="item.title" :name="item.key">
-            {{ item.title }}</el-tab-pane>
+            <div class="news-list">
+              <div v-for="(item, index) in staffData" :key="index">
+                <el-image v-if="index == 0" fit="fill"
+                  src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg"
+                  style="float: left" />
+                <a :href="item.href" target="_blank">{{ item.name }}</a>
+              </div>
+            </div>
+          </el-tab-pane>
         </el-tabs>
 
       </el-col>
-      <el-col :span="12" style="height:400px;margin-bottom: 20px;">
-        <el-row>
+      <el-col :span="12" class="col-item">
+        <el-row :gutter="10">
           <el-col :span="10">
-            <img :src="newEra.newEra1" style="width: 100%;">
+            <img :src="newEra.newEra5" style="width: 100%;height:400px">
           </el-col>
-          <el-col :span="10">
-            <el-row>
-              <el-col :span="8"> <img :src="newEra.newEra2" style="width: 100%; height: 200px;"></el-col>
-              <el-col :span="8"> <img :src="newEra.newEra3" style="width: 100%;height: 200px;"></el-col>
-              <el-col :span="8"> <img :src="newEra.newEra4" style="width: 100%;height: 200px;"></el-col>
-              <el-col :span="8"> <img :src="newEra.newEra5" style="width: 100%;height: 200px;"></el-col>
-              <el-col :span="8"> <img :src="newEra.newEra6" style="width: 100%;height: 200px;"></el-col>
-              <el-col :span="8"> <img :src="newEra.newEra7" style="width: 100%;height: 200px;"></el-col>
+          <el-col :span="12">
+            <el-row :gutter="10">
+              <el-col :span="8"> <img :src="newEra.newEra2" class="image-book">
+              </el-col>
+              <el-col :span="8"> <img :src="newEra.newEra3" class="image-book">
+              </el-col>
+              <el-col :span="8"> <img :src="newEra.newEra4" class="image-book">
+              </el-col>
+              <el-col :span="8"> <img :src="newEra.newEra1" class="image-book">
+              </el-col>
+              <el-col :span="8"> <img :src="newEra.newEra6" class="image-book">
+              </el-col>
+              <el-col :span="8"> <img :src="newEra.newEra7" class="image-book">
+              </el-col>
             </el-row>
           </el-col>
         </el-row>
@@ -45,6 +70,8 @@
 </template>
 
 <script>
+
+import topImage from '../../assets/top.png'
 
 import slideshow1 from '../../assets/slideshow/slideshow1.jpeg'
 import slideshow2 from '../../assets/slideshow/slideshow2.jpeg'
@@ -115,7 +142,7 @@ export default {
         ]
       },
       navigationBar2: {
-        nameValue: 'ManuscriptCondition',
+        nameValue: 'IntensifSoldier',
         list: [
           {
             key: 'IntensifSoldier',
@@ -132,14 +159,52 @@ export default {
           {
             key: 'NewMedia',
             title: '新媒体'
-          },
-          {
-            key: 'ManuscriptCondition',
-            title: '上稿情况'
           }
         ]
       },
-      newEra
+      newEra,
+      topImage,
+      staffData: [
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
+          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
+          name: '综述之八丨加快把人民军队建成世界一流军队'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
+          name: '基层代表热议履行新时代人民军队使命任务'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
+          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
+          name: '综述之八丨加快把人民军队建成世界一流军队'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
+          name: '基层代表热议履行新时代人民军队使命任务'
+        }, {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
+          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
+          name: '综述之八丨加快把人民军队建成世界一流军队'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
+          name: '基层代表热议履行新时代人民军队使命任务'
+        },
+        {
+          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
+          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
+        }
+      ]
 
     }
   },
@@ -150,6 +215,54 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.top-part {
+  background-color: #e60003;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
+.col-item {
+  height: 400px;
+  margin-bottom: 20px;
+}
+
+.col-item ::v-deep {
+  .el-tabs__item.is-active {
+    color: #fcb955 !important;
+  }
+}
+
+.news-list {
+  margin-top: 20px;
+  text-align: left;
+
+  div+div {
+    margin-top: 10px;
+  }
+
+  .el-image {
+    width: 200px;
+    height: 120px;
+  }
+}
+
+a:hover {
+  color: blue;
+}
+
+a:link {
+  color: black;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.image-book {
+  width: 100%;
+  height: 150px;
+  margin-bottom: 90px;
+}
 </style>

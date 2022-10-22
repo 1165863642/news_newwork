@@ -134,7 +134,7 @@ export default {
 }
 
 .navigation-bar {
-  background-color: #ffcb7d;
+  // background-color: #ffcb7d;
 
   .navigation-bar-item {
     background-color: #ffcb7d;
