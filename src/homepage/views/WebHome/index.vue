@@ -244,6 +244,7 @@ export default {
   .el-image {
     width: 200px;
     height: 120px;
+    margin-right: 10px;
   }
 }
 

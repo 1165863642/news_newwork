@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'news network',
+  title: '中国梦*强军梦',
 
   /**
    * @type {boolean} true | false
