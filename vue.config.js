@@ -23,14 +23,14 @@ module.exports = {
       template: 'public/index.html',
       filename: 'admin.html',
       title: name,
-      chunks: ['index', 'chunk-libs', 'chunk-elementUI', 'admin']
+      chunks: process.env.NODE_ENV === 'development' ? undefined : ['index', 'chunk-libs', 'chunk-elementUI', 'admin']
     },
     index: {
       entry: 'src/homepage/main.js',
       template: 'public/homepage.html',
       filename: 'index.html',
       title: name,
-      chunks: ['index', 'chunk-libs', 'chunk-elementUI', 'admin']
+      chunks: process.env.NODE_ENV === 'development' ? undefined : ['index', 'chunk-libs', 'chunk-elementUI', 'admin']
     }
   },
   /**

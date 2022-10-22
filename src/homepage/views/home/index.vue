@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     goPageModule(moduleId) {
-      document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' })
+      document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
 }
