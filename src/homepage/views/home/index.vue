@@ -14,7 +14,7 @@
             </el-col>
           </el-row>
         </div>
-        <div class="horizontal-center">
+        <div class="horizontal-center" style="background-color: #fff;">
           <div id="WebHome">
             <WebHome />
           </div>
@@ -91,13 +91,16 @@ export default {
         {
           id: 'TravelPlatform',
           title: '旅务平台'
+        },
+        {
+          id: 'rests',
+          title: '其他'
         }
       ]
     }
   },
   methods: {
     goPageModule(moduleId) {
-      debugger
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' })
     }
   }
@@ -126,7 +129,7 @@ export default {
 }
 
 .horizontal-center {
-  width: 1060px;
+  width: 1440px;
   margin: 0 auto;
 }
 
