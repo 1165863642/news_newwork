@@ -18,16 +18,16 @@ const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   pages: {
-    index: {
+    admin: {
       entry: 'src/main.js',
       template: 'public/index.html',
-      filename: 'index.html',
+      filename: 'admin.html',
       title: name
     },
-    homepage: {
+    index: {
       entry: 'src/homepage/main.js',
       template: 'public/homepage.html',
-      filename: 'homepage.html',
+      filename: 'index.html',
       title: name
     }
   },
@@ -73,7 +73,7 @@ module.exports = {
         include: 'initial'
       }
     ])
-    config.plugin('preload-homepage').tap(() => [
+    config.plugin('preload-admin').tap(() => [
       {
         rel: 'preload',
         // to ignore runtime.js
