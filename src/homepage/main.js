@@ -4,9 +4,15 @@ import homepage from './index.vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import {
   Container,
-  Header, Main, Footer,
-  Row, Col, Tabs,
-  TabPane
+  Header,
+  Main,
+  Footer,
+  Row,
+  Col,
+  Tabs,
+  TabPane,
+  Carousel,
+  CarouselItem
 } from 'element-ui'
 Vue.config.productionTip = false
 
@@ -18,6 +24,8 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
 
 new Vue({
   router,
