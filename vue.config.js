@@ -17,6 +17,20 @@ const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      template: 'public/index.html',
+      filename: 'index.html',
+      title: name
+    },
+    homepage: {
+      entry: 'src/homepage/main.js',
+      template: 'public/homepage.html',
+      filename: 'homepage.html',
+      title: name
+    }
+  },
   /**
    * You will need to set publicPath if you plan to deploy your site under a sub path,
    * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
@@ -50,7 +64,16 @@ module.exports = {
   },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
-    config.plugin('preload').tap(() => [
+    config.plugin('preload-index').tap(() => [
+      {
+        rel: 'preload',
+        // to ignore runtime.js
+        // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
+        fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
+        include: 'initial'
+      }
+    ])
+    config.plugin('preload-homepage').tap(() => [
       {
         rel: 'preload',
         // to ignore runtime.js
@@ -87,7 +110,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
@@ -116,7 +139,10 @@ module.exports = {
               }
             })
           // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
-          config.optimization.runtimeChunk('single')
+          // config.optimization.runtimeChunk('single')
+          config.optimization.runtimeChunk = {
+            name: (entrypoint) => `runtime~${entrypoint.name}`
+          }
         }
       )
   }
