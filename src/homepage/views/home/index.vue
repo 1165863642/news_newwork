@@ -15,7 +15,6 @@
           </el-row>
         </div>
         <div class="horizontal-center">
-
           <div id="WebHome">
             <WebHome />
           </div>
@@ -23,23 +22,18 @@
             <GrassRoots />
           </div>
           <div id="Characteristic">
-            特色栏目
             <Characteristic />
           </div>
           <div id="OnlineSupport">
-            在线服务
             <OnlineSupport />
           </div>
           <div id="JobInstruction">
-            工作指导
             <JobInstruction />
           </div>
           <div id="CorporationCulture">
-            信保文化
             <CorporationCulture />
           </div>
           <div id="TravelPlatform">
-            旅务平台
             <TravelPlatform />
           </div>
         </div>
