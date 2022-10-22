@@ -1,17 +1,23 @@
 <template>
-  <div id="app">
-    <router-view />
+  <div>
+    网站首页
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'App'
+  name: 'WebHome',
+  data() {
+    return {
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
+
 <style lang="scss">
-* {
-  padding: 0;
-  margin: 0;
-}
+
 </style>
