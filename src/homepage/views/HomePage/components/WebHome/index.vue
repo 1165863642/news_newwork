@@ -71,22 +71,21 @@
 
 <script>
 
-import topImage from '../../assets/top.png'
+import topImage from '../../../../assets/top.png'
 
-import slideshow1 from '../../assets/slideshow/slideshow1.jpeg'
-import slideshow2 from '../../assets/slideshow/slideshow2.jpeg'
-import slideshow3 from '../../assets/slideshow/slideshow3.jpeg'
-import slideshow4 from '../../assets/slideshow/slideshow4.jpeg'
-import slideshow5 from '../../assets/slideshow/slideshow5.jpeg'
+import slideshow1 from '../../../../assets/slideshow/slideshow1.jpeg'
+import slideshow2 from '../../../../assets/slideshow/slideshow2.jpeg'
+import slideshow3 from '../../../../assets/slideshow/slideshow3.jpeg'
+import slideshow4 from '../../../../assets/slideshow/slideshow4.jpeg'
+import slideshow5 from '../../../../assets/slideshow/slideshow5.jpeg'
 
-import newEra1 from '../../assets/newEra/newEra1.jpg'
-import newEra2 from '../../assets/newEra/newEra2.jpg'
-import newEra3 from '../../assets/newEra/newEra3.jpg'
-import newEra4 from '../../assets/newEra/newEra4.png'
-import newEra5 from '../../assets/newEra/newEra5.jpg'
-import newEra6 from '../../assets/newEra/newEra6.jpg'
-import newEra7 from '../../assets/newEra/newEra7.jpg'
-
+import newEra1 from '../../../../assets/newEra/newEra1.jpg'
+import newEra2 from '../../../../assets/newEra/newEra2.jpg'
+import newEra3 from '../../../../assets/newEra/newEra3.jpg'
+import newEra4 from '../../../../assets/newEra/newEra4.png'
+import newEra5 from '../../../../assets/newEra/newEra5.jpg'
+import newEra6 from '../../../../assets/newEra/newEra6.jpg'
+import newEra7 from '../../../../assets/newEra/newEra7.jpg'
 const newEra = { newEra1, newEra2, newEra3, newEra4, newEra5, newEra6, newEra7 }
 
 export default {

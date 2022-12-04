@@ -6,12 +6,8 @@
         <span class="title">心理咨询</span>
         <div class="news-list">
           <div v-for="(item, index) in staffData" :key="index">
-            <el-image
-              v-if="index == 0"
-              fit="fill"
-              src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg"
-              style="float: left"
-            />
+            <el-image v-if="index == 0" fit="fill"
+              src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg" style="float: left" />
             <a :href="item.href" target="_blank">{{ item.name }}</a>
           </div>
         </div>
@@ -20,12 +16,8 @@
         <span class="title">法律援助</span>
         <div class="news-list">
           <div v-for="(item, index) in staffData" :key="index">
-            <el-image
-              v-if="index == 0"
-              fit="fill"
-              src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg"
-              style="float: left"
-            />
+            <el-image v-if="index == 0" fit="fill"
+              src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg" style="float: left" />
             <a :href="item.href" target="_blank">{{ item.name }}</a>
           </div>
         </div>
@@ -77,14 +69,14 @@
 </template>
 
 <script>
-import calc from '../../assets/calc.png'
-import zili from '../../assets/zili.png'
-import gongjijin from '../../assets/gongjijin.png'
-import baozhangka from '../../assets/baozhangka.png'
-import daiyu from '../../assets/daiyu.png'
-import jundui from '../../assets/jundui.png'
-import quanjun from '../../assets/quanjun.png'
-import piaobao from '../../assets/piaobao.png'
+import calc from '../../../../assets/calc.png'
+import zili from '../../../../assets/zili.png'
+import gongjijin from '../../../../assets/gongjijin.png'
+import baozhangka from '../../../../assets/baozhangka.png'
+import daiyu from '../../../../assets/daiyu.png'
+import jundui from '../../../../assets/jundui.png'
+import quanjun from '../../../../assets/quanjun.png'
+import piaobao from '../../../../assets/piaobao.png'
 
 export default {
   name: 'OnlineSupport',
@@ -138,11 +130,12 @@ export default {
     border: 2px black solid;
     padding: 5px 26px;
   }
+
   .news-list {
     margin-top: 20px;
     text-align: left;
 
-    div + div {
+    div+div {
       margin-top: 10px;
     }
 
@@ -152,6 +145,7 @@ export default {
     }
   }
 }
+
 .el-divider {
   background-color: #394456;
   height: 10px;
@@ -165,9 +159,11 @@ export default {
 a:hover {
   color: blue;
 }
+
 a:link {
   color: black;
 }
+
 a {
   color: black;
   text-decoration: none;
@@ -182,6 +178,7 @@ a {
 
   .line {
     width: 200px;
+
     span {
       line-height: 50px;
     }

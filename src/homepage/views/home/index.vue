@@ -15,27 +15,7 @@
           </el-row>
         </div>
         <div class="horizontal-center" style="background-color: #fff;">
-          <div id="WebHome">
-            <WebHome />
-          </div>
-          <div id="GrassRoots">
-            <GrassRoots />
-          </div>
-          <div id="Characteristic">
-            <Characteristic />
-          </div>
-          <div id="OnlineSupport">
-            <OnlineSupport />
-          </div>
-          <div id="JobInstruction">
-            <JobInstruction />
-          </div>
-          <div id="CorporationCulture">
-            <CorporationCulture />
-          </div>
-          <div id="TravelPlatform">
-            <TravelPlatform />
-          </div>
+          <router-view />
         </div>
       </el-main>
       <!-- 底部备案内容 -->
@@ -50,17 +30,10 @@
 <script>
 
 import HomeLogo from './components/HomeLogo'
-import WebHome from '../WebHome/index'
-import GrassRoots from '../GrassRoots/index'
-import Characteristic from '../Characteristic/index'
-import OnlineSupport from '../OnlineSupport/index'
-import JobInstruction from '../JobInstruction/index'
-import CorporationCulture from '../CorporationCulture/index'
-import TravelPlatform from '../TravelPlatform/index'
 
 export default {
   name: 'Home',
-  components: { HomeLogo, WebHome, GrassRoots, Characteristic, OnlineSupport, JobInstruction, CorporationCulture, TravelPlatform },
+  components: { HomeLogo },
   data() {
     return {
       navigationBarList: [
@@ -69,39 +42,39 @@ export default {
           title: '网站首页'
         },
         {
-          id: 'GrassRoots',
+          id: 'journaLism/GrassRoots',
           title: '基层视窗'
         },
         {
-          id: 'Characteristic',
+          id: 'journaLism/Characteristic',
           title: '特色栏目'
         },
         {
-          id: 'OnlineSupport',
+          id: 'journaLism/OnlineSupport',
           title: '在线服务'
         },
         {
-          id: 'JobInstruction',
+          id: 'journaLism/JobInstruction',
           title: '工作指导'
         },
         {
-          id: 'CorporationCulture',
+          id: 'journaLism/CorporationCulture',
           title: '信保文化'
         },
         {
-          id: 'TravelPlatform',
+          id: 'journalism/TravelPlatform',
           title: '旅务平台'
         },
         {
-          id: 'rests',
-          title: '其他'
+          id: 'leaveWord',
+          title: '留言'
         }
       ]
     }
   },
   methods: {
     goPageModule(moduleId) {
-      document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth', block: 'center' })
+      this.$router.push(`/${moduleId}`)
     }
   }
 }

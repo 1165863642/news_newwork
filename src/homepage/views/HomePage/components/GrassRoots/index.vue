@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import slideshow1 from '../../assets/slideshow/slideshow1.jpeg'
-import slideshow2 from '../../assets/slideshow/slideshow2.jpeg'
-import slideshow3 from '../../assets/slideshow/slideshow3.jpeg'
+import slideshow1 from '../../../../assets/slideshow/slideshow1.jpeg'
+import slideshow2 from '../../../../assets/slideshow/slideshow2.jpeg'
+import slideshow3 from '../../../../assets/slideshow/slideshow3.jpeg'
 
 export default {
   name: 'GrassRoots',
