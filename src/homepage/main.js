@@ -14,7 +14,8 @@ import {
   Carousel,
   CarouselItem,
   Image,
-  Divider
+  Divider,
+  Pagination
 } from 'element-ui'
 Vue.config.productionTip = false
 
@@ -30,6 +31,7 @@ Vue.use(Divider)
 Vue.use(Image)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
+Vue.use(Pagination)
 
 new Vue({
   router,
