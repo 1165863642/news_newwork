@@ -4,12 +4,13 @@
       <el-col :span="6">
         <div class="journa-item-type">
           <div class="title">
-            {{ journaType }}
+            {{ journaTypeObj.newsTypeName }}
           </div>
           <div class="tiem-type-list">
-            <div v-for="item in journaItemTypes" :key="item.key" class="tiem"
-              :class="selectJournaItemType === item.key ? 'select-item' : ''" @click="itemClickEvent(item.key)">
-              {{ item.name }}
+            <div v-for="item in journaTypeObj.children" :key="item.newsTypeId" class="tiem"
+              :class="selectJournaItemType === item.newsTypeId ? 'select-item' : ''"
+              @click="itemClickEvent(item.newsTypeId)">
+              {{ item.newsTypeName }}
             </div>
           </div>
         </div>
@@ -36,6 +37,25 @@
 </template>
 
 <script>
+import { getNewsTypeList } from '@/homepage/api/newsType'
+const transListDataToTreeData = (list, root) => {
+  const arr = []
+  // 1.遍历
+  list.forEach((item) => {
+    // 2.首次传入空字符串  判断list的pid是否为空 如果为空就是一级节点
+    if (item.parentId === root) {
+      // 找到之后就要去找item下面有没有子节点  以 item.id 作为 父 id, 接着往下找
+      const children = transListDataToTreeData(list, item.newsTypeId)
+      if (children.length > 0) {
+        // 如果children的长度大于0,说明找到了子节点
+        item.children = children
+      }
+      // 将item项, 追加到arr数组中
+      arr.push(item)
+    }
+  })
+  return arr
+}
 const rowList = [
   { name: '新闻名称1', time: '2022-12-05', key: '001', uel: '123123' },
   { name: '新闻名称2', time: '2022-12-05', key: '002', uel: '123123' },
@@ -57,13 +77,14 @@ export default {
   name: 'JournaLism',
   data() {
     return {
-      journaType: '', // 新闻大类key
+      journaType: '', // 新闻大类名称
+      journaTypeObj: { newsTypeId: 0, newsTypeName: '', children: [] },
       journaItemTypes: [
         { name: '头条新闻', key: '001' },
         { name: '教育厅', key: '002' },
         { name: '教育动态', key: '003' },
         { name: '图片新闻', key: '004' }], // 新闻子类列表
-      selectJournaItemType: '001', // 选中新闻子类key
+      selectJournaItemType: 0, // 选中新闻子类key
       journaList: {
         row: rowList,
         paging: {
@@ -103,10 +124,17 @@ export default {
       this.selectJournaItemType = key
       // 重置更新表格
     },
-    init(journaType) {
-      this.journaType = journaType
+    async init(journaType) {
+      // this.journaType = journaType
       // 1.根据大类请求子类
-
+      const newsTypeList = await getNewsTypeList({
+        pageNum: 1,
+        pageSize: 10000
+      })
+      const data = transListDataToTreeData(newsTypeList.rows, 0)
+      const { newsTypeId, newsTypeName, children = [] } = data.filter((item) => item.newsTypeName === journaType)[0]
+      this.journaTypeObj = { newsTypeId, newsTypeName, children }
+      this.selectJournaItemType = children[0] ? children[0].newsTypeId : 0
       // 2.获取子类后更新新闻列表
     },
     toJournaDetailPage(journa) {

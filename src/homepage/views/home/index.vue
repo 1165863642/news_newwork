@@ -42,27 +42,27 @@ export default {
           title: '网站首页'
         },
         {
-          id: 'journaLism/GrassRoots',
+          id: 'journaLism/基层视窗',
           title: '基层视窗'
         },
         {
-          id: 'journaLism/Characteristic',
+          id: 'journaLism/特色栏目',
           title: '特色栏目'
         },
         {
-          id: 'journaLism/OnlineSupport',
+          id: 'journaLism/在线服务',
           title: '在线服务'
         },
         {
-          id: 'journaLism/JobInstruction',
+          id: 'journaLism/工作指导',
           title: '工作指导'
         },
         {
-          id: 'journaLism/CorporationCulture',
+          id: 'journaLism/信保文化',
           title: '信保文化'
         },
         {
-          id: 'journalism/TravelPlatform',
+          id: 'journalism/旅务平台',
           title: '旅务平台'
         },
         {
