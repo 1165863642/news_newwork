@@ -7,3 +7,11 @@ export function getNewsTypeList(params) {
     params
   })
 }
+
+export function getJournaList(params) {
+  return request({
+    url: '/system/news/list',
+    method: 'get',
+    params
+  })
+}

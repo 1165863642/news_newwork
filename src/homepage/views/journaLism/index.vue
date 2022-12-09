@@ -6,9 +6,9 @@
           <div class="title">
             {{ journaTypeObj.newsTypeName }}
           </div>
-          <div class="tiem-type-list">
+          <div v-loading="tiemTypeListLoading" class="tiem-type-list">
             <div v-for="item in journaTypeObj.children" :key="item.newsTypeId" class="tiem"
-              :class="selectJournaItemType === item.newsTypeId ? 'select-item' : ''"
+              :class="journaList.paging.newsType === item.newsTypeId ? 'select-item' : ''"
               @click="itemClickEvent(item.newsTypeId)">
               {{ item.newsTypeName }}
             </div>
@@ -18,10 +18,10 @@
       <el-col :span="18">
         <div class="journa-content">
           <div class="journa-tiem-type-name"><i class="el-icon-document" /> {{ getSelectJournaItemTypeName }}</div>
-          <div class="journa-tiem-list">
-            <div v-for="journa in journaList.row" :key="journa.key" class="journa-tiem">
-              <div class="journa-name" @click="toJournaDetailPage(journa)">{{ journa.name }}</div>
-              <div class="journa-item">{{ journa.time }}</div>
+          <div v-loading="journaTiemListLoading" class="journa-tiem-list">
+            <div v-for="journa in journaList.row" :key="journa.newsId" class="journa-tiem">
+              <div class="journa-name" @click="toJournaDetailPage(journa)">{{ journa.title }}</div>
+              <div class="journa-item">{{ journa.createTime }}</div>
             </div>
           </div>
           <!-- 分页组件 -->
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { getNewsTypeList } from '@/homepage/api/newsType'
+import { getNewsTypeList, getJournaList } from '@/homepage/api/newsType'
 const transListDataToTreeData = (list, root) => {
   const arr = []
   // 1.遍历
@@ -79,30 +79,26 @@ export default {
     return {
       journaType: '', // 新闻大类名称
       journaTypeObj: { newsTypeId: 0, newsTypeName: '', children: [] },
-      journaItemTypes: [
-        { name: '头条新闻', key: '001' },
-        { name: '教育厅', key: '002' },
-        { name: '教育动态', key: '003' },
-        { name: '图片新闻', key: '004' }], // 新闻子类列表
-      selectJournaItemType: 0, // 选中新闻子类key
+      journaItemTypes: [], // 新闻子类列表
       journaList: {
         row: rowList,
         paging: {
+          newsType: 0,
           pageSize: 20,
           page: 1,
-          total: 100
+          total: 0
         }
-      }
+      },
+      tiemTypeListLoading: false,
+      journaTiemListLoading: false
     }
   },
   computed: {
     getSelectJournaItemTypeName() {
-      console.log('测试', this.journaItemTypes)
-      for (let i = 0; i < this.journaItemTypes.length; i++) {
-        const element = this.journaItemTypes[i]
-        console.log(element)
-        if (element.key === this.selectJournaItemType) {
-          return element.name
+      for (let i = 0; i < this.journaTypeObj.children.length; i++) {
+        const item = this.journaTypeObj.children[i]
+        if (item.newsTypeId === this.journaList.paging.newsType) {
+          return item.newsTypeName
         }
       }
       return ''
@@ -121,30 +117,54 @@ export default {
   },
   methods: {
     itemClickEvent(key) {
-      this.selectJournaItemType = key
+      this.journaList.paging.newsType = key
       // 重置更新表格
+      this.journaList.paging.page = 1
+      this.updateList()
     },
     async init(journaType) {
       // this.journaType = journaType
       // 1.根据大类请求子类
+      this.tiemTypeListLoading = true
       const newsTypeList = await getNewsTypeList({
         pageNum: 1,
         pageSize: 10000
       })
+      this.tiemTypeListLoading = false
       const data = transListDataToTreeData(newsTypeList.rows, 0)
       const { newsTypeId, newsTypeName, children = [] } = data.filter((item) => item.newsTypeName === journaType)[0]
       this.journaTypeObj = { newsTypeId, newsTypeName, children }
-      this.selectJournaItemType = children[0] ? children[0].newsTypeId : 0
+      this.journaList.paging.newsType = children[0] ? children[0].newsTypeId : 0
       // 2.获取子类后更新新闻列表
+      this.journaList.paging.page = 1
+      this.updateList()
+    },
+    async updateList() {
+      this.journaTiemListLoading = true
+      const { code, msg, rows = [], total } = await getJournaList(this.journaList.paging)
+      this.journaTiemListLoading = false
+      if (code !== 200) {
+        return
+      }
+      this.journaList.paging.total = total
+      this.journaList.row = rows
     },
     toJournaDetailPage(journa) {
       // 根据新闻类型进行不同的跳转
+      const { isLink, link, newsId } = journa
+      if (isLink !== '0') {
+        // 链接打开新网页
+        window.open(link, 'blank')
+      } else {
+        // 打开新闻详情页面
+        window.open(`/#/news/${newsId}`, 'blank')
+      }
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      this.updateList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      this.updateList()
     }
   }
 }
@@ -198,15 +218,25 @@ export default {
     }
 
     .journa-tiem-list {
+      height: 700px;
 
       .journa-tiem {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         height: 30px;
+        border-bottom: 1px solid #eee;
+        margin-top: 10px;
 
         .journa-name {
           cursor: pointer;
+          width: 400px;
+          /* 让文字在一行内显示, 不换行 */
+          white-space: nowrap;
+          /* 当内容超过盒子宽度, 隐藏溢出部分 */
+          overflow: hidden;
+          /* 如果溢出的内容是文字, 就用省略号代替 */
+          text-overflow: ellipsis;
         }
 
         .journa-name:hover {
@@ -215,6 +245,8 @@ export default {
 
         .journa-item {
           color: #898989;
+          width: 200px;
+          text-align: right;
         }
       }
     }

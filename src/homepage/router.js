@@ -31,6 +31,11 @@ export const constantRoutes = [
     children: HomeItemList
   },
   {
+    path: '/news/:newsId',
+    component: () => import('./views/new/index'),
+    hidden: true
+  },
+  {
     path: '/404',
     component: () => import('./views/404'),
     hidden: true
