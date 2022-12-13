@@ -15,3 +15,12 @@ export function getJournaList(params) {
     params
   })
 }
+
+export function getMessageList(params) {
+  return request({
+    url: '/system/message/list',
+    method: 'get',
+    params
+  })
+}
+

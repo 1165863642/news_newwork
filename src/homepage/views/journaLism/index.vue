@@ -56,22 +56,6 @@ const transListDataToTreeData = (list, root) => {
   })
   return arr
 }
-const rowList = [
-  { name: '新闻名称1', time: '2022-12-05', key: '001', uel: '123123' },
-  { name: '新闻名称2', time: '2022-12-05', key: '002', uel: '123123' },
-  { name: '新闻名称3', time: '2022-12-05', key: '003', uel: '123123' },
-  { name: '新闻名称4', time: '2022-12-05', key: '004', uel: '123123' },
-  { name: '新闻名称5', time: '2022-12-05', key: '005', uel: '123123' },
-  { name: '新闻名称6', time: '2022-12-05', key: '006', uel: '123123' },
-  { name: '新闻名称7', time: '2022-12-05', key: '007', uel: '123123' },
-  { name: '新闻名称8', time: '2022-12-05', key: '008', uel: '123123' },
-  { name: '新闻名称9', time: '2022-12-05', key: '009', uel: '123123' },
-  { name: '新闻名称10', time: '2022-12-05', key: '010', uel: '123123' },
-  { name: '新闻名称11', time: '2022-12-05', key: '011', uel: '123123' },
-  { name: '新闻名称12', time: '2022-12-05', key: '012', uel: '123123' },
-  { name: '新闻名称13', time: '2022-12-05', key: '013', uel: '123123' },
-  { name: '新闻名称14', time: '2022-12-05', key: '014', uel: '123123' },
-  { name: '新闻名称15', time: '2022-12-05', key: '015', uel: '123123' }]
 
 export default {
   name: 'JournaLism',
@@ -81,7 +65,7 @@ export default {
       journaTypeObj: { newsTypeId: 0, newsTypeName: '', children: [] },
       journaItemTypes: [], // 新闻子类列表
       journaList: {
-        row: rowList,
+        row: [],
         paging: {
           newsType: 0,
           pageSize: 20,
@@ -157,7 +141,7 @@ export default {
         window.open(link, 'blank')
       } else {
         // 打开新闻详情页面
-        window.open(`/#/news/${newsId}`, 'blank')
+        window.open(`/#/news/${newsId}`, `T=${new Date().getTime()}`)
       }
     },
     handleSizeChange(val) {

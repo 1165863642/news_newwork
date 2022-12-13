@@ -4,13 +4,12 @@
       <div class="title">与首长对话，心系报国梦</div>
     </div>
     <div class="message-class">
-      <el-tabs v-model="messageClass">
-        <el-tab-pane label="留言类型1" name="messageClass1" />
-        <el-tab-pane label="留言类型2" name="messageClass2" />
-      </el-tabs>
+      <div />
+
       <div class="search">
-        <el-input v-model="searchVuale" style="width: 300px;margin-right: 10px;" placeholder="请输入内容" />
-        <el-button icon="el-icon-search" type="primary" circle />
+        <el-input v-model="messageList.paging.searchVuale" style="width: 300px;margin-right: 10px;"
+          placeholder="请输入内容" />
+        <el-button icon="el-icon-search" type="primary" circle @click="init" />
       </div>
     </div>
     <div class="message-main">
@@ -19,24 +18,24 @@
         <el-button v-show="(messageContent.length > 0)" type="primary" style="margin-top: 10px;"> 发表留言 </el-button>
       </div>
       <div class="message-list">
-        <div v-for="msg in messageList.rows" :key="msg.serialNumber" class="message-item">
+        <div v-for="msg in messageList.rows" :key="msg.id" class="message-item">
           <div class="top">
-            <p class="serial-number">NO.{{ msg.serialNumber }}</p>
-            <p>匿名</p>
+            <p class="serial-number">NO.{{ msg.id }}</p>
+            <p>{{ msg.name }}</p>
           </div>
           <div class="message-content">
             <p>{{ msg.content }}</p>
-            <div v-if="(msg.subitem.length > 0)" class="subitem-list">
-              <div v-for="(subitem, i) in msg.subitem" :key="subitem.serialNumber" class="subitem-item">
-                <span style="color:#949494 ;">{{ (i + 1) }}.匿名回复: </span>
-                <p class="subitem-content">{{ subitem.content
+            <div v-if="(msg.replies.length > 0)" class="subitem-list">
+              <div v-for="(replies, i) in msg.replies" :key="replies.id" class="subitem-item">
+                <span style="color:#949494 ;">{{ (i + 1) }}.{{ replies.name }}: </span>
+                <p class="subitem-content">{{ replies.content
                 }}
                 </p>
-                <p class="subitem-time">{{ subitem.time }}</p>
+                <p class="subitem-time">{{ replies.createTime }}</p>
               </div>
             </div>
           </div>
-          <div v-if="openMessagesNO === msg.serialNumber" class="message-tool">
+          <div v-if="openMessagesNO === msg.id" class="message-tool">
             <el-input v-model="msg.comment" class="message-tool-input" type="textarea" :rows="2" placeholder="您想说点什么？"
               resize="none" />
             <div class="message-tool-button">
@@ -45,8 +44,8 @@
             </div>
           </div>
           <div class="bottom">
-            <p class="time">{{ msg.time }}</p>
-            <el-button type="text" icon="el-icon-chat-line-round" @click="openMsg(msg)">评论</el-button>
+            <p class="time">{{ msg.createTime }}</p>
+            <!-- <el-button type="text" icon="el-icon-chat-line-round" @click="openMsg(msg)">评论</el-button> -->
           </div>
 
         </div>
@@ -56,79 +55,93 @@
   </div>
 </template>
 <script>
-const messages = [
-  {
-    serialNumber: '123123',
-    content: '内容1',
-    time: '2022-10-26 20:16:12',
-    subitem: [
-      {
-        serialNumber: '123123',
-        content: '回复内容1',
-        time: '2022-10-26 20:16:12'
-      }
-    ],
-    comment: ''
-  },
-  {
-    serialNumber: '123124',
-    content: '内容2',
-    time: '2022-10-26 20:16:12',
-    subitem: [
-      {
-        serialNumber: '123123',
-        content: '回复内容2',
-        time: '2022-10-26 20:16:12'
-      }
-    ],
-    comment: ''
-  },
-  {
-    serialNumber: '123125',
-    content: '内容3',
-    time: '2022-10-26 20:16:12',
-    subitem: [
-      {
-        serialNumber: '123123',
-        content: '回复内容3',
-        time: '2022-10-26 20:16:12'
-      }
-    ],
-    comment: ''
-  },
-  {
-    serialNumber: '123126',
-    content: '内容4',
-    time: '2022-10-26 20:16:12',
-    subitem: [
-      {
-        serialNumber: '123123',
-        content: '回复内容4',
-        time: '2022-10-26 20:16:12'
-      }
-    ],
-    comment: ''
-  }
-]
+import { getMessageList } from '../../api/newsType.js'
+
+// const messages = [
+//   {
+//     serialNumber: '123123',
+//     content: '内容1',
+//     time: '2022-10-26 20:16:12',
+//     subitem: [
+//       {
+//         serialNumber: '123123',
+//         content: '回复内容1',
+//         time: '2022-10-26 20:16:12'
+//       }
+//     ],
+//     comment: ''
+//   },
+//   {
+//     serialNumber: '123124',
+//     content: '内容2',
+//     time: '2022-10-26 20:16:12',
+//     subitem: [
+//       {
+//         serialNumber: '123123',
+//         content: '回复内容2',
+//         time: '2022-10-26 20:16:12'
+//       }
+//     ],
+//     comment: ''
+//   },
+//   {
+//     serialNumber: '123125',
+//     content: '内容3',
+//     time: '2022-10-26 20:16:12',
+//     subitem: [
+//       {
+//         serialNumber: '123123',
+//         content: '回复内容3',
+//         time: '2022-10-26 20:16:12'
+//       }
+//     ],
+//     comment: ''
+//   },
+//   {
+//     serialNumber: '123126',
+//     content: '内容4',
+//     time: '2022-10-26 20:16:12',
+//     subitem: [
+//       {
+//         serialNumber: '123123',
+//         content: '回复内容4',
+//         time: '2022-10-26 20:16:12'
+//       }
+//     ],
+//     comment: ''
+//   }
+// ]
 export default {
   name: 'LeaveWord',
   data() {
     return {
       messageList: {
-        rows: messages,
+        rows: [],
         paging: {
           pageSize: 20,
-          page: 1,
-          total: 100
+          pageNum: 1,
+          total: 0,
+          searchVuale: ''
         }
       },
       openMessagesNO: '',
       messageContent: '',
-      messageClass: 'messageClass1',
-      searchVuale: ''
+      messageClass: 'messageClass1'
+
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      this.messageList.paging.pageNum = 1
+      this.getMessageData()
+    },
+    async getMessageData() {
+      const { code, msg, rows, total } = await getMessageList(this.messageList.paging)
+      this.messageList.rows = rows
+    },
     openMsg(msg) {
       msg.comment = ''
       this.openMessagesNO = msg.serialNumber
