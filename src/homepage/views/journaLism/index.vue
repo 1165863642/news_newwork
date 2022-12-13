@@ -152,7 +152,7 @@ export default {
     toJournaDetailPage(journa) {
       // 根据新闻类型进行不同的跳转
       const { isLink, link, newsId } = journa
-      if (isLink !== '0') {
+      if (isLink === '0') {
         // 链接打开新网页
         window.open(link, 'blank')
       } else {
