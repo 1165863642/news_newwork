@@ -1,22 +1,27 @@
 <template>
   <div class="home-main">
-    <el-container>
-      <el-header>
+    <el-container style="height: 100%;">
+      <el-header height="60px">
         <div class="horizontal-center">
           <Home-Logo />
         </div>
       </el-header>
-      <el-main>
-        <div class="navigation-bar">
-          <el-row class="horizontal-center">
-            <el-col v-for="(item) in navigationBarList" :key="item.id" :span="3" @click.native="goPageModule(item.id)">
-              <div class="navigation-bar-item">{{ item.title }}</div>
-            </el-col>
-          </el-row>
+      <el-main :style="defaultHeight">
+        <div style="display: flex;flex-direction:column;height: 100%;position: relative;">
+          <div class="navigation-bar" style="position:sticky;top:0;z-index: 10;">
+            <el-row class="horizontal-center">
+              <el-col v-for="(item) in navigationBarList" :key="item.id" :span="3"
+                @click.native="goPageModule(item.id)">
+                <div class="navigation-bar-item">{{ item.title }}</div>
+              </el-col>
+            </el-row>
+
+          </div>
+          <div class="horizontal-center" style="background-color: #fff;flex: 1;overflow-y: auto;">
+            <router-view />
+          </div>
         </div>
-        <div class="horizontal-center" style="background-color: #fff;">
-          <router-view />
-        </div>
+
       </el-main>
       <!-- 底部备案内容 -->
       <!-- <el-footer>
@@ -69,22 +74,42 @@ export default {
           id: 'leaveWord',
           title: '留言'
         }
-      ]
+      ],
+      defaultHeight: {
+        height: ''
+      }
     }
   },
   methods: {
     goPageModule(moduleId) {
       this.$router.push(`/${moduleId}`)
+    },
+    // 定义方法，获取高度减去头尾
+    getHeight() {
+      this.defaultHeight.height = window.innerHeight - 120 + 'px'
     }
+  },
+  create() {
+    // 页面创建时执行一次getHeight进行赋值，顺道绑定resize事件
+    window.addEventListener('resize', this.getHeight)
+    this.getHeight()
   }
 }
 </script>
 
 <style lang="scss">
+.sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+
+}
+
 .home-main {
   background-image: url('../../assets/home-back.jpg');
   background-position: top center;
   background-repeat: no-repeat;
+  height: 100%;
 }
 
 .el-header,
@@ -108,13 +133,15 @@ export default {
 
 .navigation-bar {
   // background-color: #ffcb7d;
+  height: 45px;
 
   .navigation-bar-item {
     background-color: #ffcb7d;
     color: #8f3024;
     text-align: center;
     font-size: 20px;
-    padding: 10px;
+    line-height: 45px;
+    height: 45px;
     cursor: pointer;
     border: #8f3024 1px solid;
     font-weight: 500;

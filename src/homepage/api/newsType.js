@@ -24,3 +24,11 @@ export function getMessageList(params) {
   })
 }
 
+export function addMessage(data) {
+  return request({
+    url: '/system/message',
+    method: 'post',
+    data
+  })
+}
+

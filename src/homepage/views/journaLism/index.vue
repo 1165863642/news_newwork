@@ -1,6 +1,6 @@
 <template>
   <div class="journa-lism-content">
-    <el-row :gutter="50">
+    <el-row :gutter="50" style="height: 100%;">
       <el-col :span="6">
         <div class="journa-item-type">
           <div class="title">
@@ -202,7 +202,8 @@ export default {
     }
 
     .journa-tiem-list {
-      height: 700px;
+      min-height: 500px;
+      max-height: 600px;
 
       .journa-tiem {
         display: flex;

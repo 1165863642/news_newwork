@@ -1,37 +1,42 @@
 <template>
   <div class="leave-word-content">
     <div class="header-bg">
-      <div class="title">与首长对话，心系报国梦</div>
+      <div class="title">与首长对话 心系报国梦</div>
     </div>
     <div class="message-class">
       <div />
-
       <div class="search">
-        <el-input v-model="messageList.paging.searchVuale" style="width: 300px;margin-right: 10px;"
-          placeholder="请输入内容" />
-        <el-button icon="el-icon-search" type="primary" circle @click="init" />
+        <el-input v-model="messageList.paging.content" style="width: 300px;margin-right: 10px;" placeholder="请输入内容"
+          @keyup.enter.native="init" />
+        <el-button icon="el-icon-search" type="warning" circle @click="init" />
       </div>
     </div>
-    <div class="message-main">
+    <div v-infinite-scroll="load" v-loading="messageLoading" class="message-main">
+      <el-backtop target=".message-main" :right="300" :bottom="60">
+        <i class="el-icon-caret-top" style="color: #e6a23c;" />
+      </el-backtop>
       <div class="message-box">
         <el-input v-model="messageContent" type="textarea" :rows="3" placeholder="您想说点什么？" resize="none" />
-        <el-button v-show="(messageContent.length > 0)" type="primary" style="margin-top: 10px;"> 发表留言 </el-button>
+        <el-button v-show="(messageContent.length > 0)" style="margin-top: 10px;" @click="addMsg(true)"> 实名留言
+        </el-button>
+        <el-button v-show="(messageContent.length > 0)" type="warning" style="margin-top: 10px;" @click="addMsg(false)">
+          匿名留言 </el-button>
       </div>
       <div class="message-list">
         <div v-for="msg in messageList.rows" :key="msg.id" class="message-item">
           <div class="top">
-            <p class="serial-number">NO.{{ msg.id }}</p>
-            <p>{{ msg.name }}</p>
+            <p class="serial-number">编号 {{ padNumber(msg.id, 8, "0") }}</p>
+            <p>留言人：{{ msg.name }}</p>
           </div>
           <div class="message-content">
             <p>{{ msg.content }}</p>
-            <div v-if="(msg.replies.length > 0)" class="subitem-list">
+            <div v-if="(msg.replies && msg.replies.length > 0)" class="subitem-list">
               <div v-for="(replies, i) in msg.replies" :key="replies.id" class="subitem-item">
-                <span style="color:#949494 ;">{{ (i + 1) }}.{{ replies.name }}: </span>
+                <span style="color:#949494 ;">{{ replies.name }}回复: </span>
                 <p class="subitem-content">{{ replies.content
                 }}
                 </p>
-                <p class="subitem-time">{{ replies.createTime }}</p>
+                <p class="subitem-time">回复时间：{{ replies.createTime }}</p>
               </div>
             </div>
           </div>
@@ -50,13 +55,26 @@
 
         </div>
       </div>
+      <p v-if="messageLoading" class="msg-p">加载中...</p>
+      <p v-if="noMore" class="msg-p">没有更多了</p>
 
     </div>
   </div>
 </template>
 <script>
-import { getMessageList } from '../../api/newsType.js'
-
+import { getMessageList, addMessage } from '../../api/newsType.js'
+const padNumber = (n, targetLen, placeholder) => {
+  const arr = ('' + n).split('')
+  const diff = arr.length - targetLen
+  if (diff < 0) {
+    return Array(0 - diff)
+      .fill(placeholder, 0, 0 - diff + 1)
+      .concat(arr)
+      .join('')
+  } else {
+    return arr.join('')
+  }
+}
 // const messages = [
 //   {
 //     serialNumber: '123123',
@@ -118,29 +136,49 @@ export default {
       messageList: {
         rows: [],
         paging: {
-          pageSize: 20,
+          pageSize: 10,
           pageNum: 1,
           total: 0,
-          searchVuale: ''
+          content: ''
         }
       },
       openMessagesNO: '',
       messageContent: '',
-      messageClass: 'messageClass1'
-
+      messageClass: 'messageClass1',
+      messageLoading: false,
+      noMore: false
     }
   },
+
   mounted() {
     this.init()
   },
   methods: {
+    padNumber,
     init() {
       this.messageList.paging.pageNum = 1
       this.getMessageData()
     },
     async getMessageData() {
+      this.messageLoading = true
       const { code, msg, rows, total } = await getMessageList(this.messageList.paging)
-      this.messageList.rows = rows
+      this.messageLoading = false
+      if (code === 200) {
+        // 不是第一页面叠加列表
+        this.messageList.rows = this.messageList.paging.pageNum === 1 ? rows : [...this.messageList.rows, ...rows]
+        this.messageList.paging.total = total
+      } else {
+        this.$message.error(msg)
+      }
+    },
+    load() {
+      const { pageSize, pageNum, total } = this.messageList.paging
+      if (pageSize * pageNum < total) {
+        this.messageList.paging.pageNum++
+        this.getMessageData()
+      } else {
+        this.noMore = true
+      }
     },
     openMsg(msg) {
       msg.comment = ''
@@ -158,6 +196,33 @@ export default {
       })
       msg.comment = 0
       this.openMessagesNO = ''
+    },
+    async addMsgByName(name) {
+      const { code, msg } = await addMessage({ content: this.messageContent, name, type: '0' })
+      if (code === 200) {
+        this.messageContent = ''
+        this.$message({
+          message: '留言成功',
+          type: 'success'
+        })
+        this.init()
+      } else {
+        this.$message.error(msg)
+      }
+    },
+    addMsg(isActive) {
+      if (isActive) {
+        this.$prompt('请输入真实姓名', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /\S/,
+          inputErrorMessage: '姓名不能为空！'
+        }).then(({ value }) => {
+          this.addMsgByName(value)
+        })
+      } else {
+        this.addMsgByName('匿名')
+      }
     }
   }
 }
@@ -167,8 +232,13 @@ export default {
 $sideSistance: 160px;
 
 .leave-word-content {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
   .header-bg {
-    height: 120px;
+    height: 80px;
     background-color: #fff;
 
     .title {
@@ -182,6 +252,7 @@ $sideSistance: 160px;
     padding: 10px $sideSistance 0px $sideSistance;
     display: flex;
     justify-content: space-between;
+    height: 40px;
 
     .el-tabs__item.is-active {
       color: #fcb955 !important;
@@ -195,6 +266,8 @@ $sideSistance: 160px;
   }
 
   .message-main {
+    flex: 1;
+    overflow-y: auto;
     padding: 10px $sideSistance 0px $sideSistance;
     background-color: #f4f4f4;
 
@@ -240,6 +313,7 @@ $sideSistance: 160px;
                 text-align: right;
                 color: #949494;
                 width: 200px;
+                font-size: 12px;
               }
             }
           }
@@ -267,12 +341,20 @@ $sideSistance: 160px;
           .time {
             color: #949494;
             width: 300px;
+            font-size: 12px;
           }
 
         }
 
       }
 
+    }
+
+    .msg-p {
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      color: #e6a23c;
     }
   }
 }
