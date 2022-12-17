@@ -1,6 +1,6 @@
 <template>
   <div class="home-logo-content">
-    <div class="logo-image" />
+    <div class="logo-image" @click="toHomePage" />
   </div>
 </template>
 
@@ -16,7 +16,10 @@ export default {
     }
   },
   methods: {
-
+    toHomePage() {
+      // 打开新闻详情页面
+      window.open(`/#/WebHome`, `T=${new Date().getTime()}`)
+    }
   }
 }
 </script>
@@ -32,5 +35,6 @@ export default {
   background-image: url('../../../assets/login.png');
   background-position: center;
   background-size: 200px 100px;
+  cursor: pointer;
 }
 </style>

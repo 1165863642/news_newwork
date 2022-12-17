@@ -1,5 +1,27 @@
 import request from './request'
 
+export function toJournaDetailPage(journa) {
+  if (journa == null) {
+    return
+  }
+  // 根据新闻类型进行不同的跳转
+  const { isLink, link, newsId } = journa
+  if (isLink === '1') {
+    // 打开新闻详情页面
+    window.open(`/#/news/${newsId}`, `T=${new Date().getTime()}`)
+  } else {
+    // 链接打开新网页
+    window.open(link, 'blank')
+  }
+}
+
+export function getImageUrl(url) {
+  return `/dev-api${url}`
+}
+
+
+
+
 export function getNewsTypeList(params) {
   return request({
     url: '/system/type/list',
@@ -32,3 +54,9 @@ export function addMessage(data) {
   })
 }
 
+export function getHome() {
+  return request({
+    url: '/system/home',
+    method: 'get'
+  })
+}

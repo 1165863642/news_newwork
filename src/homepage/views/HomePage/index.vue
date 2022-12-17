@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <div id="WebHome">
       <WebHome />
     </div>
@@ -39,7 +39,14 @@ export default {
   name: 'Home',
   components: { WebHome, GrassRoots, Characteristic, OnlineSupport, JobInstruction, CorporationCulture, TravelPlatform },
   data() {
-    return {}
+    return {
+      loading: false
+    }
+  },
+  created() {
+  },
+  methods: {
+
   }
 
 }

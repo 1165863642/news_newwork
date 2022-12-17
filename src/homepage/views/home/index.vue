@@ -1,5 +1,5 @@
 <template>
-  <div class="home-main">
+  <div v-loading="loading" class="home-main">
     <el-container style="height: 100%;">
       <el-header height="60px">
         <div class="horizontal-center">
@@ -35,7 +35,7 @@
 <script>
 
 import HomeLogo from './components/HomeLogo'
-
+import { getHome } from '@/homepage/api/newsType'
 export default {
   name: 'Home',
   components: { HomeLogo },
@@ -77,10 +77,44 @@ export default {
       ],
       defaultHeight: {
         height: ''
-      }
+      },
+      loading: false
     }
   },
+  created() {
+    this.init()
+    // 页面创建时执行一次getHeight进行赋值，顺道绑定resize事件
+    window.addEventListener('resize', this.getHeight)
+    this.getHeight()
+  },
   methods: {
+    async init() {
+      this.loading = true
+      const { code, data, msg } = await getHome()
+      this.loading = false
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        const { other = [], parentType = [], top = [] } = data
+        this.$store.commit("setOther", other)
+        this.$store.commit("setTop", top)
+        this.navigationBarList = [{
+          id: 'WebHome',
+          title: '网站首页'
+        },
+        ...parentType.slice(0, 6).map((item) => {
+          return {
+            id: `journaLism/${item.label}`,
+            title: item.label
+          }
+        }),
+        {
+          id: 'leaveWord',
+          title: '留言'
+        }
+        ]
+      }
+    },
     goPageModule(moduleId) {
       this.$router.push(`/${moduleId}`)
     },
@@ -88,11 +122,6 @@ export default {
     getHeight() {
       this.defaultHeight.height = window.innerHeight - 120 + 'px'
     }
-  },
-  create() {
-    // 页面创建时执行一次getHeight进行赋值，顺道绑定resize事件
-    window.addEventListener('resize', this.getHeight)
-    this.getHeight()
   }
 }
 </script>

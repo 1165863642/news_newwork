@@ -6,60 +6,49 @@
     <el-row :gutter="20">
       <el-col :span="12" class="col-item">
         <el-carousel :interval="5000" height="400px" arrow="never" direction="vertical">
-          <el-carousel-item v-for="item in slideshowList" :key="item.id">
-            <img style="width: 100%;" :src="item.imageUrl">
+          <el-carousel-item v-for="item in slideshowList" :key="item.newsId">
+            <img style="width: 100%;" :src="getImageUrl(item.imageUrl)" :title="item.title"
+              @click="toJournaDetailPage(item)">
           </el-carousel-item>
         </el-carousel>
       </el-col>
       <el-col :span="12" class="col-item">
-        <el-tabs v-model="navigationBar1.nameValue" type="card" @tab-click="handleClick1">
-          <el-tab-pane v-for="(item) in navigationBar1.list" :key="item.key" :label="item.title" :name="item.key">
-            <div class="news-list">
-              <div v-for="(item, index) in staffData" :key="index">
-                <el-image v-if="index == 0" fit="fill"
-                  src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg"
-                  style="float: left" />
-                <a :href="item.href" target="_blank">{{ item.name }}</a>
-              </div>
-            </div>
-
+        <el-tabs v-model="Bar1.nameValue" type="card" @tab-click="handleClick1">
+          <el-tab-pane v-for="(item) in Bar1.list" :key="item.id" :label="item.label" :name="item.id">
           </el-tab-pane>
+          <div class="news-list" v-loading="Bar1.loading">
+            <div v-for="(item, index) in Bar1.news" :key="item.newsId">
+              <el-image v-if="index == 0" fit="fill" :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)"
+                style="float: left" />
+              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+            </div>
+          </div>
         </el-tabs>
 
       </el-col>
       <el-col :span="12" class="col-item">
-        <el-tabs v-model="navigationBar2.nameValue" type="card" @tab-click="handleClick2">
-          <el-tab-pane v-for="(item) in navigationBar2.list" :key="item.key" :label="item.title" :name="item.key">
-            <div class="news-list">
-              <div v-for="(item, index) in staffData" :key="index">
-                <el-image v-if="index == 0" fit="fill"
-                  src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg"
-                  style="float: left" />
-                <a :href="item.href" target="_blank">{{ item.name }}</a>
-              </div>
+        <el-tabs v-model="Bar2.nameValue" type="card" @tab-click="handleClick2">
+          <el-tab-pane v-for="(item) in Bar2.list" :key="item.id" :label="item.label" :name="item.id"> </el-tab-pane>
+          <div class="news-list" v-loading="Bar2.loading">
+            <div v-for="(item, index) in Bar2.news" :key="item.newsId">
+              <el-image v-if="index == 0" fit="fill" :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)"
+                style="float: left" />
+              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
             </div>
-          </el-tab-pane>
+          </div>
         </el-tabs>
 
       </el-col>
       <el-col :span="12" class="col-item">
         <el-row :gutter="10">
           <el-col :span="10">
-            <img :src="newEra.newEra5" style="width: 100%;height:400px">
+            <img :src="getImageUrl(journalList[0] ? journalList[0].imageUrl : '')" style="width: 100%;height:400px"
+              @click="toJournaDetailPage(journalList[0] ? journalList[0] : null)">
           </el-col>
           <el-col :span="12">
             <el-row :gutter="10">
-              <el-col :span="8"> <img :src="newEra.newEra2" class="image-book">
-              </el-col>
-              <el-col :span="8"> <img :src="newEra.newEra3" class="image-book">
-              </el-col>
-              <el-col :span="8"> <img :src="newEra.newEra4" class="image-book">
-              </el-col>
-              <el-col :span="8"> <img :src="newEra.newEra1" class="image-book">
-              </el-col>
-              <el-col :span="8"> <img :src="newEra.newEra6" class="image-book">
-              </el-col>
-              <el-col :span="8"> <img :src="newEra.newEra7" class="image-book">
+              <el-col :span="8" v-for="(item, index) in journalList" v-show="index !== 0">
+                <img :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" class="image-book">
               </el-col>
             </el-row>
           </el-col>
@@ -72,59 +61,16 @@
 <script>
 
 import topImage from '../../../../assets/top.png'
-
-import slideshow1 from '../../../../assets/slideshow/slideshow1.jpeg'
-import slideshow2 from '../../../../assets/slideshow/slideshow2.jpeg'
-import slideshow3 from '../../../../assets/slideshow/slideshow3.jpeg'
-import slideshow4 from '../../../../assets/slideshow/slideshow4.jpeg'
-import slideshow5 from '../../../../assets/slideshow/slideshow5.jpeg'
-
-import newEra1 from '../../../../assets/newEra/newEra1.jpg'
-import newEra2 from '../../../../assets/newEra/newEra2.jpg'
-import newEra3 from '../../../../assets/newEra/newEra3.jpg'
-import newEra4 from '../../../../assets/newEra/newEra4.png'
-import newEra5 from '../../../../assets/newEra/newEra5.jpg'
-import newEra6 from '../../../../assets/newEra/newEra6.jpg'
-import newEra7 from '../../../../assets/newEra/newEra7.jpg'
-const newEra = { newEra1, newEra2, newEra3, newEra4, newEra5, newEra6, newEra7 }
-
+import { mapGetters } from 'vuex';
+import { getImageUrl, toJournaDetailPage, getJournaList } from "@/homepage/api/newsType"
 export default {
   name: 'WebHome',
   data() {
     return {
-      slideshowList: [
-        {
-          id: '1',
-          imageUrl: slideshow1,
-          title: '',
-          context: ''
-        },
-        {
-          id: '2',
-          imageUrl: slideshow2,
-          title: '',
-          context: ''
-        },
-        {
-          id: '3',
-          imageUrl: slideshow3,
-          title: '',
-          context: ''
-        },
-        {
-          id: '4',
-          imageUrl: slideshow4,
-          title: '',
-          context: ''
-        }, {
-          id: '5',
-          imageUrl: slideshow5,
-          title: '',
-          context: ''
-        }
-      ],
-      navigationBar1: {
+      Bar1: {
         nameValue: 'TravelPublic',
+        loading: false,
+        news: [],
         list: [
           {
             key: 'TravelPublic',
@@ -140,8 +86,10 @@ export default {
           }
         ]
       },
-      navigationBar2: {
+      Bar2: {
         nameValue: 'IntensifSoldier',
+        loading: false,
+        news: [],
         list: [
           {
             key: 'IntensifSoldier',
@@ -161,55 +109,75 @@ export default {
           }
         ]
       },
-      newEra,
       topImage,
-      staffData: [
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
-          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
-          name: '综述之八丨加快把人民军队建成世界一流军队'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
-          name: '基层代表热议履行新时代人民军队使命任务'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
-          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
-          name: '综述之八丨加快把人民军队建成世界一流军队'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
-          name: '基层代表热议履行新时代人民军队使命任务'
-        }, {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
-          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
-          name: '综述之八丨加快把人民军队建成世界一流军队'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
-          name: '基层代表热议履行新时代人民军队使命任务'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
-          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
-        }
-      ]
-
     }
   },
+  watch: {
+    navigationBar1(newValue, oldValue) {
+      const data = newValue || []
+      const lsit = []
+      data.map((item => {
+        const { foucs, id, index, label, news } = item;
+        if (foucs) {
+          //默认选中项
+          this.Bar1.nameValue = id;
+          this.Bar1.news = news;
+          lsit.unshift({ id, index, label });
+        } else {
+          lsit.push({ id, index, label });
+        }
+      }))
+      this.Bar1.list = lsit
+    },
+    navigationBar2(newValue, oldValue) {
+      const data = newValue || []
+      const lsit = []
+      data.map((item => {
+        const { foucs, id, index, label, news } = item;
+        if (foucs) {
+          //默认选中项
+          this.Bar2.nameValue = id;
+          this.Bar2.news = news;
+          lsit.unshift({ id, index, label });
+        } else {
+          lsit.push({ id, index, label });
+        }
+      }))
+      this.Bar2.list = lsit
+    }
+  },
+  computed: {
+    ...mapGetters(['slideshowList', 'navigationBar1', 'navigationBar2', 'journalList']),
+  },
   methods: {
-    handleClick1() { },
-    handleClick2() { }
+    getImageUrl,
+    toJournaDetailPage,
+    async handleClick1() {
+      this.Bar1.loading = true
+      const { code, msg, rows = [] } = await getJournaList({
+        pageSize: 6,
+        page: 1, newsType: this.Bar1.nameValue
+      })
+      this.Bar1.loading = false
+      if (code !== 200) {
+        this.$message.error(msg)
+        return
+      }
+      this.Bar1.news = rows;
+    },
+    async handleClick2() {
+      this.Bar2.loading = true
+      const { code, msg, rows = [] } = await getJournaList({
+        pageSize: 6,
+        page: 1, newsType: this.Bar2.nameValue
+      })
+      this.Bar2.loading = false
+      if (code !== 200) {
+        this.$message.error(msg)
+        return
+      }
+      this.Bar2.news = rows;
+    }
   }
 }
 </script>
@@ -233,7 +201,7 @@ export default {
 }
 
 .news-list {
-  margin-top: 20px;
+  margin-top: 0px;
   text-align: left;
 
   div+div {
@@ -248,7 +216,7 @@ export default {
 }
 
 a:hover {
-  color: blue;
+  color: #fcb955;
 }
 
 a:link {
@@ -258,6 +226,7 @@ a:link {
 a {
   color: black;
   text-decoration: none;
+  padding-left: 5px;
 }
 
 .image-book {

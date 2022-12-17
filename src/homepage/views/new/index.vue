@@ -13,8 +13,8 @@
             <h1>{{ news.title }}</h1>
           </div>
           <div class="news-time"><span>{{ news.createTime }}</span></div>
-          <div class="news-img">
-            <img :src="`/dev-api/${news.imageUrl}`">
+          <div v-for="item in news.imageUrl.split(',')" :key="item" class="news-img">
+            <img :src="`/dev-api${item}`">
           </div>
           <div class="news-com">
             <div v-html="news.content" />
@@ -91,6 +91,7 @@ export default {
 .news {
   .news-title {
     padding: 10px 0;
+    text-align: center;
   }
 
   .news-time {
