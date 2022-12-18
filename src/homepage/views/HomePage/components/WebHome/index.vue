@@ -166,7 +166,9 @@ export default {
       this.Bar1.loading = true
       const { code, msg, rows = [] } = await getJournaList({
         pageSize: 6,
-        page: 1, newsType: this.Bar1.nameValue
+        page: 1,
+        newsType: this.Bar1.nameValue,
+        reviewStatus: 1
       })
       this.Bar1.loading = false
       if (code !== 200) {
@@ -179,7 +181,9 @@ export default {
       this.Bar2.loading = true
       const { code, msg, rows = [] } = await getJournaList({
         pageSize: 6,
-        page: 1, newsType: this.Bar2.nameValue
+        page: 1,
+        newsType: this.Bar2.nameValue,
+        reviewStatus: 1
       })
       this.Bar2.loading = false
       if (code !== 200) {

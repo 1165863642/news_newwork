@@ -58,7 +58,9 @@ export default {
       const newsId = this.$route.params.newsId
       const { code, msg, rows = [] } = await getJournaList({
         pageSize: 1,
-        page: 1, newsId
+        page: 1,
+        newsId,
+        reviewStatus: 1
       })
       if (rows.length > 0) {
         this.news = rows[0]

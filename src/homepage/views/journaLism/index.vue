@@ -125,7 +125,7 @@ export default {
     },
     async updateList() {
       this.journaTiemListLoading = true
-      const { code, msg, rows = [], total } = await getJournaList(this.journaList.paging)
+      const { code, msg, rows = [], total } = await getJournaList({ ...this.journaList.paging, reviewStatus: 1 })
       this.journaTiemListLoading = false
       if (code !== 200) {
         return

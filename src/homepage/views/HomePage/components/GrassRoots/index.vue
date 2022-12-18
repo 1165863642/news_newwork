@@ -78,7 +78,9 @@ export default {
       this.navigationBar.loading = true
       const { code, msg, rows = [] } = await getJournaList({
         pageSize: 6,
-        page: 1, newsType: this.navigationBar.activeName
+        page: 1,
+        newsType: this.navigationBar.activeName,
+        reviewStatus: 1
       })
       this.navigationBar.loading = false
       if (code !== 200) {
