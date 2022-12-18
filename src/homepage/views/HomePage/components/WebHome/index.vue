@@ -112,11 +112,28 @@ export default {
       topImage,
     }
   },
+  mounted() {
+    this.init1(this.navigationBar1);
+    this.init2(this.navigationBar2);
+  },
   watch: {
     navigationBar1(newValue, oldValue) {
+      this.init1(newValue)
+    },
+    navigationBar2(newValue, oldValue) {
+      this.init2(newValue)
+    }
+  },
+  computed: {
+    ...mapGetters(['slideshowList', 'navigationBar1', 'navigationBar2', 'journalList']),
+  },
+  methods: {
+    getImageUrl,
+    toJournaDetailPage,
+    init1(newValue) {
       const data = newValue || []
       const lsit = []
-      data.map((item => {
+      data.map((item) => {
         const { foucs, id, index, label, news } = item;
         if (foucs) {
           //默认选中项
@@ -126,13 +143,13 @@ export default {
         } else {
           lsit.push({ id, index, label });
         }
-      }))
+      })
       this.Bar1.list = lsit
     },
-    navigationBar2(newValue, oldValue) {
+    init2(newValue) {
       const data = newValue || []
       const lsit = []
-      data.map((item => {
+      data.map((item) => {
         const { foucs, id, index, label, news } = item;
         if (foucs) {
           //默认选中项
@@ -142,16 +159,9 @@ export default {
         } else {
           lsit.push({ id, index, label });
         }
-      }))
+      })
       this.Bar2.list = lsit
-    }
-  },
-  computed: {
-    ...mapGetters(['slideshowList', 'navigationBar1', 'navigationBar2', 'journalList']),
-  },
-  methods: {
-    getImageUrl,
-    toJournaDetailPage,
+    },
     async handleClick1() {
       this.Bar1.loading = true
       const { code, msg, rows = [] } = await getJournaList({

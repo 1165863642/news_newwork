@@ -1,66 +1,38 @@
 <template>
   <div>
-    <el-divider content-positio="center"> 在线服务 </el-divider>
+    <el-divider content-positio="center">
+      <div @click="$router.push(`/journaLism/${label}`)">{{ label }}</div>
+    </el-divider>
     <el-row :gutter="20">
       <el-col :span="8" class="container">
-        <span class="title">心理咨询</span>
+        <span class="title">{{ news1.label }}</span>
         <div class="news-list">
-          <div v-for="(item, index) in staffData" :key="index">
-            <el-image v-if="index == 0" fit="fill"
-              src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg" style="float: left" />
-            <a :href="item.href" target="_blank">{{ item.name }}</a>
+          <div v-for="(item, index) in news1.news" :key="item.newsId">
+            <el-image v-if="index == 0" fit="fill" :src="getImageUrl(item.imageUrl)" style="float: left"
+              @click="toJournaDetailPage(item)" :title="item.title" />
+            <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
           </div>
         </div>
       </el-col>
       <el-col :span="8" class="container">
-        <span class="title">法律援助</span>
+        <span class="title">{{ news2.label }}</span>
         <div class="news-list">
-          <div v-for="(item, index) in staffData" :key="index">
-            <el-image v-if="index == 0" fit="fill"
-              src="http://www.81.cn/attachement/jpg/site351/20221019/e04f4328292b24b9a20605.jpg" style="float: left" />
-            <a :href="item.href" target="_blank">{{ item.name }}</a>
+          <div v-for="(item, index) in news2.news" :key="item.newsId">
+            <el-image v-if="index == 0" fit="fill" :src="getImageUrl(item.imageUrl)" style="float: left"
+              @click="toJournaDetailPage(item)" :title="item.title" />
+            <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
           </div>
         </div>
       </el-col>
+
+
       <el-col :span="8" class="container">
-        <span class="title">服务之窗</span>
+        <span class="title">{{ news3.label }}</span>
         <div class="server">
-          <div>
-            <el-image class="icon" :src="calc" style="float: left" />
-            <div class="line"><span>军人待遇计算器</span></div>
-          </div>
-
-          <div>
-            <el-image class="icon" :src="zili" style="float: left" />
-            <div class="line"><span>资历章编排</span></div>
-          </div>
-          <div>
-            <el-image class="icon" :src="gongjijin" style="float: left" />
-            <div class="line"><span>住房公积金贷款查询</span></div>
-          </div>
-
-          <div>
-            <el-image class="icon" :src="baozhangka" style="float: left" />
-            <div class="line"><span>军人标识牌[保障卡]</span></div>
-          </div>
-
-          <div>
-            <el-image class="icon" :src="daiyu" style="float: left" />
-            <div class="line"><span>全军人员生活待遇网</span></div>
-          </div>
-
-          <div>
-            <el-image class="icon" :src="jundui" style="float: left" />
-            <div class="line"><span>全军被装信息平台</span></div>
-          </div>
-          <div>
-            <el-image class="icon" :src="quanjun" style="float: left" />
-            <div class="line"><span>全队物资采购网</span></div>
-          </div>
-
-          <div>
-            <el-image class="icon" :src="piaobao" style="float: left" />
-            <div class="line"><span>票报查询验证系统</span></div>
+          <div v-for="(item, index) in news3.news" :key="item.newsId">
+            <el-image class="icon" :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)"
+              style="float: left" />
+            <div class="line" @click="toJournaDetailPage(item)"><span>{{ item.title }}</span></div>
           </div>
         </div>
       </el-col>
@@ -69,56 +41,54 @@
 </template>
 
 <script>
-import calc from '../../../../assets/calc.png'
-import zili from '../../../../assets/zili.png'
-import gongjijin from '../../../../assets/gongjijin.png'
-import baozhangka from '../../../../assets/baozhangka.png'
-import daiyu from '../../../../assets/daiyu.png'
-import jundui from '../../../../assets/jundui.png'
-import quanjun from '../../../../assets/quanjun.png'
-import piaobao from '../../../../assets/piaobao.png'
 
+import { mapGetters } from 'vuex';
+import { getImageUrl, toJournaDetailPage } from "@/homepage/api/newsType"
 export default {
   name: 'OnlineSupport',
   data() {
     return {
-      calc,
-      zili,
-      gongjijin,
-      baozhangka,
-      daiyu,
-      jundui,
-      quanjun,
-      piaobao,
-      staffData: [
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
-          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
-          name: '综述之八丨加快把人民军队建成世界一流军队'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
-          name: '基层代表热议履行新时代人民军队使命任务'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
-          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
-          name: '综述之八丨加快把人民军队建成世界一流军队'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
-          name: '基层代表热议履行新时代人民军队使命任务'
-        }
-      ]
+      news1: {
+        id: 0,
+        label: "",
+        news: []
+      },
+      news2: {
+        id: 0,
+        label: "",
+        news: []
+      },
+      news3: {
+        id: 0,
+        label: "",
+        news: []
+      },
+      label: ''
     }
   },
-  methods: {}
+  mounted() {
+    this.init(this.onlineClassBar);
+  },
+  watch: {
+    onlineClassBar(newValue, oldValue) {
+      this.init(newValue);
+    }
+  },
+  computed: {
+    ...mapGetters(['onlineClassBar']),
+  },
+  methods: {
+    getImageUrl, toJournaDetailPage,
+    init(newValue) {
+      if (newValue && newValue.length > 0) {
+        const { label, child = [] } = newValue[0]
+        this.label = label;
+        child.forEach((item, i) => {
+          this[`news${i + 1}`] = item
+        })
+      }
+    }
+  }
 }
 </script>
 
@@ -157,7 +127,7 @@ export default {
 }
 
 a:hover {
-  color: blue;
+  color: #fcb955;
 }
 
 a:link {
@@ -167,6 +137,7 @@ a:link {
 a {
   color: black;
   text-decoration: none;
+  padding-left: 5px;
 }
 
 .server {

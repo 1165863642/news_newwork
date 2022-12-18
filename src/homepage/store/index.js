@@ -29,6 +29,26 @@ const storeConf = {
             const data = state.top.filter((item) => item.index === 3)
             return data[0] ? data[0].news : []
         },
+        // 基层视窗
+        basicClassBar(state) {
+            const data = state.other.filter((item) => item.id === 1) || []
+            return data
+        },
+        // 特色栏目
+        featureClassBar(state) {
+            const data = state.other.filter((item) => item.id === 2) || []
+            return data
+        },
+        // 在线服务
+        onlineClassBar(state) {
+            const data = state.other.filter((item) => item.id === 3) || []
+            return data
+        },
+        // 工作指导
+        workClassBar(state) {
+            const data = state.other.filter((item) => item.id === 4) || []
+            return data
+        },
     },
     mutations: {
         setOther(state, other) {
@@ -41,5 +61,4 @@ const storeConf = {
 };
 
 const store = new Vuex.Store(storeConf);
-
 export default store;

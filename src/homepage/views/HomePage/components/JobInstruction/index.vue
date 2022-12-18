@@ -1,28 +1,31 @@
 <template>
   <div>
-    <el-divider content-positio="center"> 工作指导 </el-divider>
+    <el-divider content-positio="center">
+      <div @click="$router.push(`/journaLism/${label}`)">{{ label }}</div>
+    </el-divider>
     <el-row :gutter="20">
       <el-col :span="8" class="container">
-        <span class="title">参谋部</span>
+        <span class="title">{{ news1.label }}</span>
         <div class="news-list">
-          <div v-for="(item, index) in staffData" :key="index">
-            <a :href="item.href" target="_blank">{{ item.name }}</a>
+          <div v-for="(item, index) in news1.news" :key="item.newsId">
+            <a @click="toJournaDetailPage(item)" :title="item.title">{{ item.title }}</a>
           </div>
         </div>
       </el-col>
       <el-col :span="8" class="container">
-        <span class="title">政治工作部</span>
+        <span class="title">{{ news2.label }}</span>
         <div class="news-list">
-          <div v-for="(item, index) in staffData" :key="index">
-            <a :href="item.href" target="_blank">{{ item.name }}</a>
+          <div v-for="(item, index) in news2.news" :key="item.newsId">
+            <a @click="toJournaDetailPage(item)" :title="item.title">{{ item.title }}</a>
           </div>
         </div>
       </el-col>
+
       <el-col :span="8" class="container">
-        <span class="title">保障部</span>
+        <span class="title">{{ news3.label }}</span>
         <div class="news-list">
-          <div v-for="(item, index) in staffData" :key="index">
-            <a :href="item.href" target="_blank">{{ item.name }}</a>
+          <div v-for="(item, index) in news3.news" :key="item.newsId">
+            <a @click="toJournaDetailPage(item)" :title="item.title">{{ item.title }}</a>
           </div>
         </div>
       </el-col>
@@ -31,27 +34,53 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { getImageUrl, toJournaDetailPage } from "@/homepage/api/newsType"
 export default {
   name: 'JobInstruction',
   data() {
     return {
-      staffData: [
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194144.htm',
-          name: '解放军和武警部队代表团代表持续热烈讨论党的二十大报告'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194148.htm',
-          name: '综述之八丨加快把人民军队建成世界一流军队'
-        },
-        {
-          href: 'http://www.81.cn/yw/2022-10/22/content_10194152.htm',
-          name: '基层代表热议履行新时代人民军队使命任务'
-        }
-      ]
+      news1: {
+        id: 0,
+        label: "",
+        news: []
+      },
+      news2: {
+        id: 0,
+        label: "",
+        news: []
+      },
+      news3: {
+        id: 0,
+        label: "",
+        news: []
+      },
+      label: ''
     }
   },
-  methods: {}
+  mounted() {
+    this.init(this.workClassBar);
+  },
+  watch: {
+    workClassBar(newValue, oldValue) {
+      this.init(newValue);
+    }
+  },
+  computed: {
+    ...mapGetters(['workClassBar']),
+  },
+  methods: {
+    getImageUrl, toJournaDetailPage,
+    init(newValue) {
+      if (newValue && newValue.length > 0) {
+        const { label, child = [] } = newValue[0]
+        this.label = label;
+        child.forEach((item, i) => {
+          this[`news${i + 1}`] = item
+        })
+      }
+    }
+  }
 }
 </script>
 
@@ -59,18 +88,21 @@ export default {
 .container {
   text-align: center;
 }
+
 .title {
   border: 2px black solid;
   padding: 5px 26px;
 }
+
 .news-list {
   margin-top: 20px;
   text-align: left;
 
-  div + div {
+  div+div {
     margin-top: 10px;
   }
 }
+
 .el-divider {
   background-color: #394456;
   height: 10px;
@@ -82,11 +114,13 @@ export default {
 }
 
 a:hover {
-  color: blue;
+  color: #fcb955;
 }
+
 a:link {
   color: black;
 }
+
 a {
   color: black;
   text-decoration: none;

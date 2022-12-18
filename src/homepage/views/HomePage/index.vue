@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" style="margin-bottom: 200px;">
     <div id="WebHome">
       <WebHome />
     </div>
@@ -15,12 +15,12 @@
     <div id="JobInstruction">
       <JobInstruction />
     </div>
-    <div id="CorporationCulture">
+    <!-- <div id="CorporationCulture">
       <CorporationCulture />
     </div>
     <div id="TravelPlatform">
       <TravelPlatform />
-    </div>
+    </div> -->
   </div>
 
 </template>
