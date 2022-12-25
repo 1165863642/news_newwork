@@ -14,10 +14,10 @@
           </div>
           <div class="news-time"><span>{{ news.createTime }}</span></div>
           <div v-for="item in news.imageUrl.split(',')" :key="item" class="news-img">
-            <img :src="`/dev-api${item}`">
+            <img v-if="item" :src="getImageUrl(item)">
           </div>
           <div class="news-com">
-            <div v-html="news.content" />
+            <div v-html="news.content" class="ql-editor" />
           </div>
         </div>
       </el-main>
@@ -27,7 +27,13 @@
 
 <script>
 import HomeLogo from './components/HomeLogo'
-import { getJournaList } from '@/homepage/api/newsType'
+import { getJournaList, getImageUrl } from '@/homepage/api/newsType'
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+import Quill from 'quill';
+import ImageResize from 'quill-image-resize-module'; // 引用
+Quill.register('modules/imageResize', ImageResize); // 注册
 export default {
   name: 'News',
   components: { HomeLogo },
@@ -54,6 +60,7 @@ export default {
     this.init()
   },
   methods: {
+    getImageUrl,
     async init() {
       const newsId = this.$route.params.newsId
       const { code, msg, rows = [] } = await getJournaList({

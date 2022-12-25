@@ -1,27 +1,31 @@
 <template>
-  <div>
+  <div style="padding-bottom: 30px;">
     <el-divider content-positio="center">
-      <div @click="$router.push(`/journaLism/${label}`)">{{ label }}</div>
+      <div @click="$router.push(`/journaLism/${label}`)" class="module-title">{{ label }}</div>
     </el-divider>
+    <el-card>
 
-    <el-tabs v-model="navigationBar.activeName" @tab-click="handleClick">
-      <el-tab-pane v-for="(item) in navigationBar.list" :key="item.id" :label="item.label" :name="item.id" />
-    </el-tabs>
-    <div v-loading="navigationBar.loading">
-      <el-row :gutter="20">
-        <el-col :span="5" v-for="item in navigationBar.news.slice(0, 3)" :key="item.newsId">
-          <img :src="getImageUrl(item.imageUrl)" class="image-info" @click="toJournaDetailPage(item)"
-            :title="item.title">
-        </el-col>
-        <el-col :span="9" v-if="navigationBar.news.length > 3">
-          <div class="news-list">
-            <div v-for="item in navigationBar.news.slice(2)" :key="item.newsId">
-              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+
+      <el-tabs v-model="navigationBar.activeName" @tab-click="handleClick">
+        <el-tab-pane v-for="(item) in navigationBar.list" :key="item.id" :label="item.label" :name="item.id" />
+      </el-tabs>
+      <div v-loading="navigationBar.loading">
+        <el-row :gutter="20">
+          <el-col :span="5" v-for="item in navigationBar.news.slice(0, 3)" :key="item.newsId">
+            <img :src="getImageUrl(item.imageUrl)" class="image-info" @click="toJournaDetailPage(item)"
+              :title="item.title">
+          </el-col>
+          <el-col :span="9" v-if="navigationBar.news.length > 3">
+            <div class="news-list">
+              <div v-for="item in navigationBar.news.slice(2, 7)" :key="item.newsId">
+                <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+              </div>
             </div>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+          </el-col>
+        </el-row>
+      </div>
+    </el-card>
+
   </div>
 </template>
 
@@ -60,16 +64,15 @@ export default {
         const { label, child = [] } = newValue[0]
         this.label = label;
         const lsit = []
-        child.map((item) => {
+        child.map((item, i) => {
           const { id, label, news } = item;
-          if (news) {
+          if (i == 0) {
             //默认选中项
             this.navigationBar.activeName = id + '';
             this.navigationBar.news = news;
-            lsit.unshift({ id: id + '', label });
-          } else {
-            lsit.push({ id: id + '', label });
           }
+          lsit.push({ id: id + '', label });
+
         })
         this.navigationBar.list = lsit
       }
@@ -95,8 +98,8 @@ export default {
 
 <style lang="scss">
 .el-divider {
-  background-color: #394456;
-  height: 10px;
+  background-color: #ffcb7d;
+  height: 5px;
 }
 
 .el-divider__text {
@@ -106,11 +109,10 @@ export default {
 
 .image-info {
   width: 100%;
-  height: 100px;
+  height: 140px;
 }
 
 .news-list {
-  margin-top: 20px;
   text-align: left;
 
   div+div {
@@ -135,5 +137,27 @@ a {
   color: black;
   text-decoration: none;
   padding-left: 5px;
+}
+
+.module-title {
+  background-color: #ffcb7d;
+  color: #8f3024;
+  text-align: center;
+  font-size: 20px;
+  line-height: 45px;
+  height: 45px;
+  cursor: pointer;
+  border: #8f3024 1px solid;
+  padding: 0 40px;
+  font-weight: 500;
+  border-radius: 2px;
+}
+
+.el-tabs__item.is-active {
+  color: #ffcb7d;
+}
+
+.el-tabs__active-bar {
+  background-color: #ffcb7d;
 }
 </style>

@@ -1,61 +1,75 @@
 <template>
-  <div>
+  <div style="padding-bottom: 30px;">
     <el-divider content-positio="center">
-      <div @click="$router.push(`/journaLism/${label}`)">{{ label }}</div>
+      <div @click="$router.push(`/journaLism/${label}`)" class="module-title">{{ label }}</div>
     </el-divider>
     <el-row :gutter="20">
       <el-col :span="8" class="container">
-        <span class="title">{{ news1.label }}</span>
-        <div class="news-list">
-          <div v-for="(item, index) in news1.news.slice(0, 4)" :key="item.newsId">
-            <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+        <el-card><span class="title">{{ news1.label }}</span>
+          <div class="news-list">
+            <div v-for="(item, index) in news1.news.slice(0, 4)" :key="item.newsId">
+              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+            </div>
           </div>
-        </div>
-        <div class="flex-row">
-          <el-image v-for="(item, index) in news1.news.slice(4, 6)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
-            @click="toJournaDetailPage(item)" :title="item.title" style="width: 200px; height: 100px" />
-        </div>
+          <div class="flex-row">
+            <el-image v-for="(item, index) in news1.news.slice(4, 6)" :key="item.newsId"
+              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
+              style="width: 200px; height: 100px" />
+          </div>
+        </el-card>
+
       </el-col>
 
 
       <el-col :span="8" class="container">
-        <span class="title">{{ news2.label }}</span>
-        <div class="news-list">
-          <div v-for="(item, index) in news2.news.slice(0, 4)" :key="item.newsId">
-            <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+        <el-card>
+          <span class="title">{{ news2.label }}</span>
+          <div class="news-list">
+            <div v-for="(item, index) in news2.news.slice(0, 4)" :key="item.newsId">
+              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+            </div>
           </div>
-        </div>
-        <div class="flex-row">
-          <el-image v-for="(item, index) in news2.news.slice(4, 6)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
-            @click="toJournaDetailPage(item)" :title="item.title" style="width: 200px; height: 100px" />
-        </div>
+          <div class="flex-row">
+            <el-image v-for="(item, index) in news2.news.slice(4, 6)" :key="item.newsId"
+              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
+              style="width: 200px; height: 100px" />
+          </div>
+        </el-card>
+
       </el-col>
 
 
       <el-col :span="8" class="container">
-        <span class="title">{{ news3.label }}</span>
-        <div class="news-list">
-          <div v-for="(item, index) in news3.news.slice(0, 4)" :key="item.newsId">
-            <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+        <el-card>
+          <span class="title">{{ news3.label }}</span>
+          <div class="news-list">
+            <div v-for="(item, index) in news3.news.slice(0, 4)" :key="item.newsId">
+              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+            </div>
           </div>
-        </div>
-        <div class="flex-row">
-          <el-image v-for="(item, index) in news3.news.slice(4, 6)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
-            @click="toJournaDetailPage(item)" :title="item.title" style="width: 200px; height: 100px" />
-        </div>
+          <div class="flex-row">
+            <el-image v-for="(item, index) in news3.news.slice(4, 6)" :key="item.newsId"
+              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
+              style="width: 200px; height: 100px" />
+          </div>
+
+        </el-card>
+
       </el-col>
     </el-row>
 
+    <el-card style="margin-top: 20px">
+      <div style="text-align: center;">
+        <span class="title">典型人物</span>
+      </div>
+
+      <div class="flex-row">
+        <el-image v-for="(item, index) in news4.news.slice(0, 5)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
+          @click="toJournaDetailPage(item)" :title="item.title" style="width: 250px; height: 100px" />
+      </div>
+    </el-card>
 
 
-    <div style="text-align: center; margin-top: 20px">
-      <span style="border: 2px solid black; border-radius: 5px; padding: 10px 30px;font-size: 20px;">典型人物</span>
-    </div>
-
-    <div class="flex-row">
-      <el-image v-for="(item, index) in news4.news.slice(0, 5)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
-        @click="toJournaDetailPage(item)" :title="item.title" style="width: 250px; height: 100px" />
-    </div>
   </div>
 </template>
 
@@ -121,8 +135,9 @@ export default {
 }
 
 .title {
-  border: 2px black solid;
+  border: #fcb955 2px solid;
   padding: 5px 26px;
+  border-radius: 2px;
 }
 
 .news-list {
@@ -135,8 +150,8 @@ export default {
 }
 
 .el-divider {
-  background-color: #394456;
-  height: 10px;
+  background-color: #ffcb7d;
+  height: 5px;
 }
 
 .el-divider__text {
@@ -164,5 +179,20 @@ a {
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+}
+
+
+.module-title {
+  background-color: #ffcb7d;
+  color: #8f3024;
+  text-align: center;
+  font-size: 20px;
+  line-height: 45px;
+  height: 45px;
+  cursor: pointer;
+  border: #8f3024 1px solid;
+  padding: 0 40px;
+  font-weight: 500;
+  border-radius: 2px;
 }
 </style>

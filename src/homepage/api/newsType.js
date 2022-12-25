@@ -16,7 +16,7 @@ export function toJournaDetailPage(journa) {
 }
 
 export function getImageUrl(url) {
-  return `/dev-api${url}`
+  return `${process.env.VUE_APP_BASE_API}${url}`
 }
 
 

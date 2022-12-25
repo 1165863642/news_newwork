@@ -252,7 +252,7 @@ $sideSistance: 160px;
     padding: 10px $sideSistance 0px $sideSistance;
     display: flex;
     justify-content: space-between;
-    height: 40px;
+    height: 55px;
 
     .el-tabs__item.is-active {
       color: #fcb955 !important;

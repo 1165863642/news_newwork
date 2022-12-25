@@ -25,7 +25,9 @@
       </el-main>
       <!-- 底部备案内容 -->
       <!-- <el-footer>
-        <div class="horizontal-center" />
+        <div class="horizontal-center">
+
+        </div>
       </el-footer> -->
     </el-container>
   </div>
@@ -141,12 +143,22 @@ export default {
   height: 100%;
 }
 
-.el-header,
-.el-footer {
+.el-header {
   background-color: #e42a0f;
   color: #333;
   text-align: center;
   line-height: 60px;
+}
+
+$horizontal-width: 1440px;
+
+.el-footer {
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+  background-color: #fff;
+  width: $horizontal-width;
+  margin: 0 auto;
 }
 
 .home-main {
@@ -155,8 +167,10 @@ export default {
   }
 }
 
+
+
 .horizontal-center {
-  width: 1440px;
+  width: $horizontal-width;
   margin: 0 auto;
 }
 

@@ -18,8 +18,8 @@
           </el-tab-pane>
           <div class="news-list" v-loading="Bar1.loading">
             <div v-for="(item, index) in Bar1.news" :key="item.newsId">
-              <el-image v-if="index == 0" fit="fill" :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)"
-                style="float: left" />
+              <el-image v-if="index == 0 && item.imageUrl" fit="fill" :src="getImageUrl(item.imageUrl)"
+                @click="toJournaDetailPage(item)" style="float: left" />
               <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
             </div>
           </div>
@@ -31,8 +31,8 @@
           <el-tab-pane v-for="(item) in Bar2.list" :key="item.id" :label="item.label" :name="item.id"> </el-tab-pane>
           <div class="news-list" v-loading="Bar2.loading">
             <div v-for="(item, index) in Bar2.news" :key="item.newsId">
-              <el-image v-if="index == 0" fit="fill" :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)"
-                style="float: left" />
+              <el-image v-if="index == 0 && item.imageUrl" fit="fill" :src="getImageUrl(item.imageUrl)"
+                @click="toJournaDetailPage(item)" style="float: left" />
               <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
             </div>
           </div>
@@ -45,9 +45,9 @@
             <img :src="getImageUrl(journalList[0] ? journalList[0].imageUrl : '')" style="width: 100%;height:400px"
               @click="toJournaDetailPage(journalList[0] ? journalList[0] : null)">
           </el-col>
-          <el-col :span="12">
+          <el-col :span="14">
             <el-row :gutter="10">
-              <el-col :span="8" v-for="(item, index) in journalList" v-show="index !== 0">
+              <el-col :span="12" v-for="(item, index) in journalList" v-show="index !== 0">
                 <img :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" class="image-book">
               </el-col>
             </el-row>
@@ -245,7 +245,7 @@ a {
 
 .image-book {
   width: 100%;
-  height: 150px;
-  margin-bottom: 90px;
+  height: 120px;
+  margin-bottom: 15px;
 }
 </style>
