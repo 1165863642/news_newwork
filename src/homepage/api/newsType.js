@@ -60,3 +60,12 @@ export function getHome() {
     method: 'get'
   })
 }
+
+
+export function getMessageUser() {
+  return request({
+    url: '/system/user/messageUser',
+    method: 'get'
+  })
+}
+

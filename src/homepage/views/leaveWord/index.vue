@@ -6,9 +6,9 @@
     <div class="message-class">
       <div />
       <div class="search">
-        <el-input v-model="messageList.paging.content" style="width: 300px;margin-right: 10px;" placeholder="请输入内容"
-          @keyup.enter.native="init" />
-        <el-button icon="el-icon-search" type="warning" circle @click="init" />
+        <el-input v-model="messageList.paging.uniqueCode" style="width: 300px;margin-right: 10px;"
+          placeholder="请输入加密留言编码" @keyup.enter.native="init" />
+        <el-button icon="el-icon-key" type="warning" circle @click="init" />
       </div>
     </div>
     <div v-infinite-scroll="load" v-loading="messageLoading" class="message-main">
@@ -16,11 +16,21 @@
         <i class="el-icon-caret-top" style="color: #e6a23c;" />
       </el-backtop>
       <div class="message-box">
-        <el-input v-model="messageContent" type="textarea" :rows="3" placeholder="您想说点什么？" resize="none" />
-        <el-button v-show="(messageContent.length > 0)" style="margin-top: 10px;" @click="addMsg(true)"> 实名留言
-        </el-button>
-        <el-button v-show="(messageContent.length > 0)" type="warning" style="margin-top: 10px;" @click="addMsg(false)">
-          匿名留言 </el-button>
+        <el-input v-model="addMessageFrom.content" type="textarea" :rows="4" placeholder="您想说点什么？" resize="none" />
+        <div v-show="(addMessageFrom.content.length > 0)" style="margin-top: 10px;">
+          <el-radio v-model="addMessageFrom.open" :label="1">公开</el-radio>
+          <el-radio v-model="addMessageFrom.open" :label="0">隐私</el-radio>
+          留言人：
+          <el-select v-model="addMessageFrom.user_id" placeholder="请选择留言人" style="margin-right: 10px;">
+            <el-option v-for="item in MessageUser" :key="item.userId" :label="item.nickName" :value="item.userId">
+            </el-option>
+          </el-select>
+          <el-button @click="addMsg(true)"> 实名留言
+          </el-button>
+          <el-button type="warning" @click="addMsg(false)">
+            匿名留言 </el-button>
+        </div>
+
       </div>
       <div class="message-list">
         <div v-for="msg in messageList.rows" :key="msg.id" class="message-item">
@@ -33,8 +43,7 @@
             <div v-if="(msg.replies && msg.replies.length > 0)" class="subitem-list">
               <div v-for="(replies, i) in msg.replies" :key="replies.id" class="subitem-item">
                 <span style="color:#949494 ;">{{ replies.name }}回复: </span>
-                <p class="subitem-content">{{ replies.content
-                }}
+                <p class="subitem-content">{{ replies.content }}
                 </p>
                 <p class="subitem-time">回复时间：{{ replies.createTime }}</p>
               </div>
@@ -62,7 +71,7 @@
   </div>
 </template>
 <script>
-import { getMessageList, addMessage } from '../../api/newsType.js'
+import { getMessageList, addMessage, getMessageUser } from '../../api/newsType.js'
 const padNumber = (n, targetLen, placeholder) => {
   const arr = ('' + n).split('')
   const diff = arr.length - targetLen
@@ -139,14 +148,22 @@ export default {
           pageSize: 10,
           pageNum: 1,
           total: 0,
-          content: ''
+          uniqueCode: ''
         }
       },
       openMessagesNO: '',
       messageContent: '',
       messageClass: 'messageClass1',
       messageLoading: false,
-      noMore: false
+      noMore: false,
+      MessageUser: [],
+      addMessageFrom: {
+        content: '',
+        open: 1,
+        user_id: '',
+        name: '',
+        type: '0'
+      }
     }
   },
 
@@ -155,7 +172,13 @@ export default {
   },
   methods: {
     padNumber,
-    init() {
+    async init() {
+      const { code, data = [] } = await getMessageUser();
+      if (code === 200) {
+        this.MessageUser = data;
+      } else {
+        this.MessageUser = [];
+      }
       this.messageList.paging.pageNum = 1
       this.getMessageData()
     },
@@ -198,19 +221,41 @@ export default {
       this.openMessagesNO = ''
     },
     async addMsgByName(name) {
-      const { code, msg } = await addMessage({ content: this.messageContent, name, type: '0' })
+      const { code, msg, data } = await addMessage({ ...this.addMessageFrom, name })
       if (code === 200) {
-        this.messageContent = ''
-        this.$message({
-          message: '留言成功',
-          type: 'success'
-        })
+        this.addMessageFrom.content = ''
+        this.addMessageFrom.open = 1
+        this.addMessageFrom.user_id = ''
+        this.$message.success('留言成功');
         this.init()
+        this.$confirm(`加密留言号码：${data}`, '提示', {
+          confirmButtonText: '复制',
+          cancelButtonText: '关闭',
+        }).then(() => {
+          // text是复制文本
+          // 创建input元素
+          const el = document.createElement('input')
+          // 给input元素赋值需要复制的文本
+          el.setAttribute('value', data)
+          // 将input元素插入页面
+          document.body.appendChild(el)
+          // 选中input元素的文本
+          el.select()
+          // 复制内容到剪贴板
+          document.execCommand('copy')
+          // 删除input元素
+          document.body.removeChild(el)
+          this.$message.success('复制成功');
+        })
       } else {
         this.$message.error(msg)
       }
     },
     addMsg(isActive) {
+      if (!this.addMessageFrom.user_id) {
+        this.$message.error("请选择留言人")
+        return
+      }
       if (isActive) {
         this.$prompt('请输入真实姓名', '提示', {
           confirmButtonText: '确定',
@@ -357,5 +402,28 @@ $sideSistance: 160px;
       color: #e6a23c;
     }
   }
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #ebb563;
+  background: #ebb563;
+}
+
+.el-radio__input.is-checked+.el-radio__label {
+  color: #ebb563;
+}
+
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #ebb563;
+}
+
+.el-select-dropdown__item.selected {
+  color: #ebb563;
+}
+
+
+
+.el-select .el-input__inner:focus {
+  border-color: #ebb563;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top-part">
-      <img :src="topImage" style="width: 49%;"> <img :src="topImage" style="width: 49%;">
+      <img :src="topImage" style="width: 100%;height: 150px;">
     </div>
     <el-row :gutter="20">
       <el-col :span="12" class="col-item">
@@ -220,6 +220,7 @@ export default {
 
   div+div {
     margin-top: 10px;
+
   }
 
   .el-image {
