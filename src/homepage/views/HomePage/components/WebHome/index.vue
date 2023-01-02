@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="top-part">
-      <img :src="topImage" style="width: 100%;height: 150px;">
+      <img v-show="welcomeImage.length > 0" :src="getImageUrl(welcomeImage[0].imageUrl)"
+        style="width: 100%;height: 150px;">
     </div>
     <el-row :gutter="20">
       <el-col :span="12" class="col-item">
@@ -125,7 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['slideshowList', 'navigationBar1', 'navigationBar2', 'journalList']),
+    ...mapGetters(['slideshowList', 'navigationBar1', 'navigationBar2', 'journalList', 'welcomeImage']),
   },
   methods: {
     getImageUrl,

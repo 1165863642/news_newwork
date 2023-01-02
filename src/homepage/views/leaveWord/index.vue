@@ -42,7 +42,7 @@
             <p>{{ msg.content }}</p>
             <div v-if="(msg.replies && msg.replies.length > 0)" class="subitem-list">
               <div v-for="(replies, i) in msg.replies" :key="replies.id" class="subitem-item">
-                <span style="color:#949494 ;">{{ replies.name }}回复: </span>
+                <span style="color:#949494 ;">{{ getRepliesName(replies.name) }}回复: </span>
                 <p class="subitem-content">{{ replies.content }}
                 </p>
                 <p class="subitem-time">回复时间：{{ replies.createTime }}</p>
@@ -172,6 +172,18 @@ export default {
   },
   methods: {
     padNumber,
+    getRepliesName(user_id) {
+      for (let i = 0; i < this.MessageUser.length; i++) {
+        const { userId, nickName } = this.MessageUser[i];
+        if (userId == user_id) {
+          return nickName;
+        }
+      }
+      if (user_id == 1) {
+        return '超级管理员'
+      }
+      return user_id;
+    },
     async init() {
       const { code, data = [] } = await getMessageUser();
       if (code === 200) {
