@@ -9,6 +9,16 @@ const storeConf = {
     top: []
   },
   getters: {
+    //  首页头部新闻
+    honeTopNew(state) {
+      const data = state.top.filter((item) => item.index === 6)
+      return data[0] ? data[0].news : []
+    },
+    //  头条图片新闻
+    headlineImgNews(state) {
+      const data = state.top.filter((item) => item.index === 7)
+      return data[0] ? data[0].news : []
+    },
     //  主页模块一轮播图
     slideshowList(state) {
       const data = state.top.filter((item) => item.index === 0)

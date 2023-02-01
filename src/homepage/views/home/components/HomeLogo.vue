@@ -1,40 +1,50 @@
 <template>
-  <div class="home-logo-content">
-    <div class="logo-image" @click="toHomePage" />
+  <div class="top-news">
+    <div class="news-item">
+      <img v-if="honeTopNew[0]" :src="getImageUrl(honeTopNew[0].imageUrl)" @click="toJournaDetailPage(honeTopNew[0])" />
+    </div>
+
+    <div class="news-item">
+      <img v-if="honeTopNew[1]" :src="getImageUrl(honeTopNew[1].imageUrl)" @click="toJournaDetailPage(honeTopNew[1])" />
+    </div>
   </div>
 </template>
 
 <script>
-
-import logoImage from '../../../assets/login.png'
-
+import { getImageUrl, toJournaDetailPage } from "@/homepage/api/newsType"
+import { mapGetters } from 'vuex';
+import { getHome } from '@/homepage/api/newsType'
 export default {
   name: 'HomeLogo',
   data() {
     return {
-      logoImage
     }
   },
+  watch: {
+  },
+  computed: {
+    ...mapGetters(['honeTopNew']),
+  },
+  async mounted() {
+  },
   methods: {
-    toHomePage() {
-      // 打开新闻详情页面
-      this.$router.push(`/WebHome`)
-    }
+    getImageUrl,
+    toJournaDetailPage
   }
 }
 </script>
 
 <style lang="scss">
-.home-logo-content {
-  text-align: left;
+.top-news {
+  display: flex;
+  justify-content: space-between;
 }
 
-.logo-image {
-  width: 200px;
-  height: 60px;
-  background-image: url('../../../assets/login.png');
-  background-position: center;
-  background-size: 200px 100px;
-  cursor: pointer;
+.news-item {
+  height: 70px;
+
+  img {
+    height: 100%;
+  }
 }
 </style>

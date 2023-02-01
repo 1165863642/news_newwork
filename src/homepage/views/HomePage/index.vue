@@ -3,6 +3,9 @@
     <div id="WebHome">
       <WebHome />
     </div>
+    <div id="GrassRoots">
+      <GrassRoots />
+    </div>
     <div id="JobInstruction">
       <JobInstruction />
     </div>
@@ -13,9 +16,7 @@
     <div id="OnlineSupport">
       <OnlineSupport />
     </div>
-    <div id="GrassRoots">
-      <GrassRoots />
-    </div>
+
     <div id="Slideshow">
       <slideshow />
     </div>

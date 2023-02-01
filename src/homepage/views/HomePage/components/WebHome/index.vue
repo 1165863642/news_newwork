@@ -1,8 +1,15 @@
 <template>
   <div>
     <div class="top-part">
-      <img v-show="welcomeImage.length > 0" :src="getImageUrl(welcomeImage[0].imageUrl)"
-        style="width: 100%;height: 150px;">
+      <img v-if="welcomeImage.length > 0" :src="getImageUrl(welcomeImage[0].imageUrl)"
+        @click="toJournaDetailPage(welcomeImage[0])" style="width: 100%;height: 150px;">
+
+      <img v-if="headlineImgNews[0]" :src="getImageUrl(headlineImgNews[0].imageUrl)"
+        @click="toJournaDetailPage(headlineImgNews[0])" style="width: 100%;height: 80px;margin-top: 2px;">
+
+      <img v-if="headlineImgNews[1]" :src="getImageUrl(headlineImgNews[1].imageUrl)"
+        @click="toJournaDetailPage(headlineImgNews[1])" style="width: 100%;height: 80px;margin-top: 2px;">
+
     </div>
     <el-row :gutter="20">
       <el-col :span="12" class="col-item">
@@ -61,7 +68,7 @@
 
 <script>
 
-import topImage from '../../../../assets/top.png'
+
 import { mapGetters } from 'vuex';
 import { getImageUrl, toJournaDetailPage, getJournaList } from "@/homepage/api/newsType"
 export default {
@@ -109,8 +116,7 @@ export default {
             title: '新媒体'
           }
         ]
-      },
-      topImage,
+      }
     }
   },
   mounted() {
@@ -126,7 +132,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['slideshowList', 'navigationBar1', 'navigationBar2', 'journalList', 'welcomeImage']),
+    ...mapGetters(['slideshowList', 'headlineImgNews', 'navigationBar1', 'navigationBar2', 'journalList', 'welcomeImage']),
   },
   methods: {
     getImageUrl,
@@ -198,8 +204,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../../../mian.scss";
+
 .top-part {
-  background-color: #e60003;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -211,7 +218,8 @@ export default {
 
 .col-item ::v-deep {
   .el-tabs__item.is-active {
-    color: #fcb955 !important;
+    color: $main-color !important;
+    font-weight: 1000 !important;
   }
 }
 
@@ -229,20 +237,6 @@ export default {
     height: 120px;
     margin-right: 10px;
   }
-}
-
-a:hover {
-  color: #fcb955;
-}
-
-a:link {
-  color: black;
-}
-
-a {
-  color: black;
-  text-decoration: none;
-  padding-left: 5px;
 }
 
 .image-book {

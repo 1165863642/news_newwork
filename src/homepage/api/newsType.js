@@ -20,11 +20,12 @@ export function getImageUrl(url) {
 }
 
 
-
-
 export function getNewsTypeList(params) {
   return request({
     url: '/system/type/list',
+    headers: {
+      isToken: false
+    },
     method: 'get',
     params
   })
@@ -33,6 +34,9 @@ export function getNewsTypeList(params) {
 export function getJournaList(params) {
   return request({
     url: '/system/news/list',
+    headers: {
+      isToken: false
+    },
     method: 'get',
     params
   })
@@ -41,6 +45,9 @@ export function getJournaList(params) {
 export function getMessageList(params) {
   return request({
     url: '/system/message/list',
+    headers: {
+      isToken: false
+    },
     method: 'get',
     params
   })
@@ -49,6 +56,9 @@ export function getMessageList(params) {
 export function addMessage(data) {
   return request({
     url: '/system/message',
+    headers: {
+      isToken: false
+    },
     method: 'post',
     data
   })
@@ -57,6 +67,9 @@ export function addMessage(data) {
 export function getHome() {
   return request({
     url: '/system/home',
+    headers: {
+      isToken: false
+    },
     method: 'get'
   })
 }
@@ -65,7 +78,56 @@ export function getHome() {
 export function getMessageUser() {
   return request({
     url: '/system/user/messageUser',
+    headers: {
+      isToken: false
+    },
     method: 'get'
   })
 }
 
+// 获取验证码
+export function getCodeImg() {
+  return request({
+    url: '/captchaImage',
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    timeout: 20000
+  })
+}
+
+
+// 登录方法
+export function login(username, password, code, uuid) {
+  const data = {
+    username,
+    password,
+    code,
+    uuid
+  }
+  return request({
+    url: '/login',
+    headers: {
+      isToken: false
+    },
+    method: 'post',
+    data: data
+  })
+}
+
+// 获取用户详细信息
+export function getInfo() {
+  return request({
+    url: '/getInfo',
+    method: 'get'
+  })
+}
+
+// 退出方法
+export function logout() {
+  return request({
+    url: '/logout',
+    method: 'post'
+  })
+}

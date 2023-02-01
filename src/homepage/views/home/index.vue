@@ -1,8 +1,10 @@
 <template>
   <div v-loading="loading" class="home-main">
     <el-container style="height: 100%;">
-      <el-header height="60px">
+      <el-header height="90px">
+
         <div class="horizontal-center">
+          <Home-Login />
           <Home-Logo />
         </div>
       </el-header>
@@ -37,10 +39,12 @@
 <script>
 
 import HomeLogo from './components/HomeLogo'
+import HomeLogin from './components/HomeLogin'
 import { getHome } from '@/homepage/api/newsType'
+
 export default {
   name: 'Home',
-  components: { HomeLogo },
+  components: { HomeLogo, HomeLogin },
   data() {
     return {
       navigationBarList: [
@@ -137,20 +141,21 @@ export default {
 }
 
 .home-main {
-  background-image: url('../../assets/home-back.jpg');
+  background-color: rgba($color: #eee, $alpha: 0.5);
   background-position: top center;
   background-repeat: no-repeat;
   height: 100%;
 }
 
 .el-header {
-  background-color: #e42a0f;
+  background-color: #fff;
   color: #333;
   text-align: center;
   line-height: 60px;
 }
 
 $horizontal-width: 1440px;
+$main-color: #3a523d;
 
 .el-footer {
   color: #333;
@@ -179,15 +184,15 @@ $horizontal-width: 1440px;
   height: 45px;
 
   .navigation-bar-item {
-    background-color: #ffcb7d;
-    color: #8f3024;
+    background-color: #fff;
+    color: $main-color;
     text-align: center;
     font-size: 20px;
     line-height: 45px;
     height: 45px;
     cursor: pointer;
-    border: #8f3024 1px solid;
-    font-weight: 500;
+    border: $main-color 1px solid;
+    font-weight: 1000;
   }
 }
 </style>

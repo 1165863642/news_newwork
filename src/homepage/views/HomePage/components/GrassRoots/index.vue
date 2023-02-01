@@ -5,10 +5,13 @@
     </el-divider>
     <el-card>
 
+      <div class="top_situation" @click="showTopSituation()">上稿情况</div>
+      <div style="width: 90%;">
+        <el-tabs v-model="navigationBar.activeName" @tab-click="handleClick">
+          <el-tab-pane v-for="(item) in navigationBar.list" :key="item.id" :label="item.label" :name="item.id" />
+        </el-tabs>
+      </div>
 
-      <el-tabs v-model="navigationBar.activeName" @tab-click="handleClick">
-        <el-tab-pane v-for="(item) in navigationBar.list" :key="item.id" :label="item.label" :name="item.id" />
-      </el-tabs>
       <div v-loading="navigationBar.loading">
         <el-row :gutter="20">
           <el-col :span="5" v-for="item in navigationBar.news.slice(0, 3)" :key="item.newsId">
@@ -24,7 +27,26 @@
           </el-col>
         </el-row>
       </div>
+
+
     </el-card>
+
+
+    <el-dialog title="上稿情况" :visible.sync="topSituationVisible" width="50%" :before-close="topSituationClose" center>
+      <el-row style="margin-bottom: 20px;">
+        <el-col :span="8" class="topSituationCol">排名</el-col>
+        <el-col :span="8" class="topSituationCol">名称</el-col>
+        <el-col :span="8" class="topSituationCol">上稿数量</el-col>
+      </el-row>
+      <el-row v-for="(item, i) in topSituationList" :key="item.id">
+        <el-col :span="8" :class="i < 3 ? 'topSituationCom-x' : 'topSituationCom'">{{ i+ 1}}</el-col>
+        <el-col :span="8" :class="i < 3 ? 'topSituationCom-x' : 'topSituationCom'">{{ item.label }}</el-col>
+        <el-col :span="8" :class="i < 3 ? 'topSituationCom-x' : 'topSituationCom'"> {{
+          item.count ? item.count : '0'
+        }}</el-col>
+      </el-row>
+
+    </el-dialog>
 
   </div>
 </template>
@@ -43,7 +65,9 @@ export default {
         news: [],
         list: []
       },
-      label: ''
+      label: '',
+      topSituationVisible: false,
+      topSituationList: []
     }
   },
   mounted() {
@@ -59,19 +83,30 @@ export default {
   },
   methods: {
     getImageUrl, toJournaDetailPage,
+    showTopSituation() {
+      // 显示上访情况
+
+      const list = this.navigationBar.list.map(({ count, id, label }) => { return { count, id, label } });
+      this.topSituationList = list.sort((a, b) => { return b.count - a.count })
+      this.topSituationVisible = true;
+    },
+    topSituationClose() {
+      // 上访情况
+      this.topSituationVisible = false;
+    },
     init(newValue) {
       if (newValue && newValue.length > 0) {
         const { label, child = [] } = newValue[0]
         this.label = label;
         const lsit = []
         child.map((item, i) => {
-          const { id, label, news } = item;
+          const { id, label, count, news } = item;
           if (i == 0) {
             //默认选中项
             this.navigationBar.activeName = id + '';
             this.navigationBar.news = news;
           }
-          lsit.push({ id: id + '', label });
+          lsit.push({ id: id + '', label, count });
 
         })
         this.navigationBar.list = lsit
@@ -97,10 +132,9 @@ export default {
 </script>
 
 <style lang="scss">
-.el-divider {
-  background-color: #ffcb7d;
-  height: 5px;
-}
+@import "../../../../mian.scss";
+
+
 
 .el-divider__text {
   font-size: 25px;
@@ -125,39 +159,57 @@ export default {
   }
 }
 
-a:hover {
-  color: #fcb955;
-}
-
-a:link {
-  color: black;
-}
-
-a {
-  color: black;
-  text-decoration: none;
-  padding-left: 5px;
-}
-
-.module-title {
-  background-color: #ffcb7d;
-  color: #8f3024;
-  text-align: center;
-  font-size: 20px;
-  line-height: 45px;
-  height: 45px;
-  cursor: pointer;
-  border: #8f3024 1px solid;
-  padding: 0 40px;
-  font-weight: 500;
-  border-radius: 2px;
-}
 
 .el-tabs__item.is-active {
-  color: #ffcb7d;
+  color: $main-color;
+  font-weight: 1000;
 }
 
 .el-tabs__active-bar {
-  background-color: #ffcb7d;
+  background-color: $main-color;
+}
+
+.top_situation {
+  float: right;
+  width: 90px;
+  color: #000;
+  text-align: right;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.top_situation:hover {
+  color: $main-color;
+  font-weight: 1000;
+  font-size: 18px;
+}
+
+.topSituationCol {
+  text-align: center;
+  color: $main-color;
+  font-size: 18px;
+  font-weight: 1000;
+  border-right: $main-color 1px solid;
+}
+
+.topSituationCol:last-of-type {
+  border: none;
+}
+
+.topSituationCom-x {
+  text-align: center;
+  line-height: 35px;
+  height: 35px;
+  font-size: 20px;
+  color: #d71616;
+  font-size: 1000;
+}
+
+
+.topSituationCom {
+  text-align: center;
+  line-height: 30px;
+  height: 30px;
+  font-size: 18px;
 }
 </style>

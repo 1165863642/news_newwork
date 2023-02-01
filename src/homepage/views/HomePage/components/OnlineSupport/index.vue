@@ -102,11 +102,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../../../mian.scss";
+
 .container {
   text-align: center;
 
   .title {
-    border: #fcb955 2px solid;
+    border: $main-color 2px solid;
+    font-weight: 500;
     padding: 5px 26px;
     border-radius: 2px;
   }
@@ -126,28 +129,10 @@ export default {
   }
 }
 
-.el-divider {
-  background-color: #ffcb7d;
-  height: 5px;
-}
 
 .el-divider__text {
   font-size: 25px;
   background-color: #fff;
-}
-
-a:hover {
-  color: #fcb955;
-}
-
-a:link {
-  color: black;
-}
-
-a {
-  color: black;
-  text-decoration: none;
-  padding-left: 5px;
 }
 
 .server {
@@ -179,19 +164,7 @@ a {
   visibility: hidden;
 }
 
-.module-title {
-  background-color: #ffcb7d;
-  color: #8f3024;
-  text-align: center;
-  font-size: 20px;
-  line-height: 45px;
-  height: 45px;
-  cursor: pointer;
-  border: #8f3024 1px solid;
-  padding: 0 40px;
-  font-weight: 500;
-  border-radius: 2px;
-}
+
 
 .my-list-h {
   height: 300px;

@@ -1,8 +1,7 @@
 <template>
-
   <div class="news-content">
     <el-container>
-      <el-header>
+      <el-header style="height: 70px;">
         <div class="horizontal-center">
           <Home-Logo />
         </div>
@@ -80,7 +79,6 @@ export default {
 <style lang="scss" >
 .el-header,
 .el-footer {
-  background-color: #e42a0f;
   color: #333;
   text-align: center;
   line-height: 60px;

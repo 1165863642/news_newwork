@@ -155,11 +155,13 @@ export default {
 </script>
 
 <style lang="scss" >
+$main-color: #3a523d;
+
 .journa-lism-content {
   padding: 20px 0 0 0;
 
   .journa-item-type {
-    border: 2px #c10407 solid;
+    border: 2px $main-color solid;
     font-size: 16px;
     color: #000;
 
@@ -169,8 +171,8 @@ export default {
       text-align: center;
       font-weight: 600;
       font-size: 20px;
-      color: #c10407;
-      border-bottom: 1px #c10407 solid;
+      color: $main-color;
+      border-bottom: 1px $main-color solid;
     }
 
     .tiem-type-list {
@@ -185,7 +187,7 @@ export default {
       .select-item {
         color: #fff;
         font-size: 18px;
-        background-color: #bf0108;
+        background-color: $main-color;
       }
     }
   }
@@ -194,7 +196,7 @@ export default {
     margin: 20px 50px 20px 0px;
 
     .journa-tiem-type-name {
-      border-bottom: 3px #c10407 solid;
+      border-bottom: 3px $main-color solid;
       font-size: 20px;
       font-weight: 600;
       margin-bottom: 20px;
@@ -225,7 +227,7 @@ export default {
         }
 
         .journa-name:hover {
-          color: #bf0108;
+          color: $main-color;
         }
 
         .journa-item {
@@ -243,19 +245,19 @@ export default {
 }
 
 .el-pagination.is-background .el-pager li {
-  color: #cf0104;
+  color: $main-color;
   background-color: #fff;
-  border: 1px #cf0104 solid;
+  border: 1px $main-color solid;
 }
 
 .el-pagination.is-background .el-pager li:not(.disabled).active {
-  background-color: #cf0104;
+  background-color: $main-color;
   color: #FFF;
 }
 
 .el-pagination.is-background .btn-next {
   background-color: #fff;
-  color: #cf0104;
-  border: 1px #cf0104 solid;
+  color: $main-color;
+  border: 1px $main-color solid;
 }
 </style>

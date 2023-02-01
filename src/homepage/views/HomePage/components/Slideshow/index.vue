@@ -14,8 +14,6 @@
       </el-carousel-item>
     </el-carousel>
 
-
-
   </div>
 </template>
 
@@ -60,17 +58,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.module-title {
-  background-color: #ffcb7d;
-  color: #8f3024;
-  text-align: center;
-  font-size: 20px;
-  line-height: 45px;
-  height: 45px;
-  cursor: pointer;
-  border: #8f3024 1px solid;
-  padding: 0 40px;
-  font-weight: 500;
-  border-radius: 2px;
-}
+@import "../../../../mian.scss";
 </style>
