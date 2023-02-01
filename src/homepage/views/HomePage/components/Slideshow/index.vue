@@ -1,7 +1,7 @@
 <template>
   <div style="padding-bottom: 30px;">
     <el-divider content-positio="center">
-      <div class="module-title">展示墙</div>
+      <div class="module-title">文化角</div>
     </el-divider>
 
     <el-carousel :interval="10000" arrow="never" height="150px">
@@ -43,7 +43,6 @@ export default {
     getImageUrl,
     toJournaDetailPage,
     init(list) {
-      console.log('init', list);
       this.slideshowList = this.spArr(list, 6);
     },
     spArr(arr, num) { //arr是你要分割的数组，num是以几个为一组

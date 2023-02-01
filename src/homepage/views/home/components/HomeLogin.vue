@@ -1,29 +1,36 @@
 <template>
   <div class="home-login">
-    <div class="username">您好！***欢迎访问！</div>
-    <div class="login-bnt">登录</div>
+    <div class="username" v-if="userInfo">{{ userInfo.nickName }},您好!欢迎访问！</div>
+    <div class="login-bnt" @click="logout" v-if="userInfo">退出</div>
+    <div class="login-bnt" @click="showLoginDialog" v-else>登录</div>
     <Login />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Login from './Login.vue'
+import { removeToken } from '@/homepage/api/auth'
 export default {
-  name: 'HomeLogo',
+  name: 'HomeLogin',
   components: { Login },
   data() {
     return {
     }
   },
-
   watch: {
   },
   computed: {
-
+    ...mapState(['userInfo'])
   },
   methods: {
-
+    showLoginDialog() {
+      this.$store.commit("setLoginDialogVisible", true);
+    },
+    logout() {
+      removeToken();
+      this.$store.commit("setToken", "");
+    }
   }
 }
 </script>

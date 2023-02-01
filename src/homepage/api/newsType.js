@@ -99,7 +99,7 @@ export function getCodeImg() {
 
 
 // 登录方法
-export function login(username, password, code, uuid) {
+export function login({ username, password, code, uuid }) {
   const data = {
     username,
     password,

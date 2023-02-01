@@ -41,7 +41,7 @@
 import HomeLogo from './components/HomeLogo'
 import HomeLogin from './components/HomeLogin'
 import { getHome } from '@/homepage/api/newsType'
-
+import { getToken } from '@/homepage/api/auth'
 export default {
   name: 'Home',
   components: { HomeLogo, HomeLogin },
@@ -92,9 +92,15 @@ export default {
     // 页面创建时执行一次getHeight进行赋值，顺道绑定resize事件
     window.addEventListener('resize', this.getHeight)
     this.getHeight()
+    const token = getToken();
+    console.log("token", token);
+    if (token) {
+      this.$store.commit("setToken", token);
+    }
   },
   methods: {
     async init() {
+
       this.loading = true
       const { code, data, msg } = await getHome()
       this.loading = false

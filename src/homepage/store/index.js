@@ -1,12 +1,16 @@
+import { getInfo } from "@/homepage/api/newsType";
 import Vue from "vue";
 import Vuex from "vuex";
-
+import { Message } from 'element-ui'
 Vue.use(Vuex);
 
 const storeConf = {
   state: {
     other: [],
-    top: []
+    top: [],
+    loginDialogVisible: false,
+    token: '',
+    userInfo: null
   },
   getters: {
     //  首页头部新闻
@@ -76,6 +80,23 @@ const storeConf = {
     },
     setTop(state, top) {
       state.top = top
+    },
+    setLoginDialogVisible(state, loginDialogVisible) {
+      state.loginDialogVisible = loginDialogVisible
+    },
+    setToken(state, token) {
+      if (token) {
+        state.token = token
+        getInfo().then((res) => {
+          state.userInfo = res.user
+          Message.success("获取用户信息成功！");
+        })
+      } else {
+        state.token = "";
+        state.userInfo = null;
+        Message.success("退出成功！");
+      }
+
     }
   }
 };
