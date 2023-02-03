@@ -131,3 +131,13 @@ export function logout() {
     method: 'post'
   })
 }
+
+
+// 新增回复功能
+export function addReply(data) {
+  return request({
+    url: '/system/reply',
+    method: 'post',
+    data
+  })
+}

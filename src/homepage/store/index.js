@@ -95,6 +95,7 @@ const storeConf = {
         state.token = "";
         state.userInfo = null;
         Message.success("退出成功！");
+        location.reload();
       }
 
     }

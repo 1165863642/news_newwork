@@ -190,14 +190,14 @@ $main-color: #3a523d;
   height: 45px;
 
   .navigation-bar-item {
-    background-color: #fff;
-    color: $main-color;
+    background-color: $main-color;
+    color: #fff;
     text-align: center;
     font-size: 20px;
     line-height: 45px;
     height: 45px;
     cursor: pointer;
-    border: $main-color 1px solid;
+    border: #fff 1px solid;
     font-weight: 1000;
   }
 }
