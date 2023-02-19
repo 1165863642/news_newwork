@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import WebHome from './views/HomePage/index' // WebHome
 export const HomeItemList = [
   {
     path: '/WebHome',
-    component: () => import('./views/HomePage/index'),
+    component: WebHome,
     title: '网站首页',
     hidden: true
   },
@@ -21,11 +21,12 @@ export const HomeItemList = [
 
 ]
 
+import home from './views/home/index' // WebHome
 Vue.use(Router)
 export const constantRoutes = [
   {
     path: '/',
-    component: () => import('./views/home/index'),
+    component: home,
     hidden: true,
     redirect: HomeItemList[0].path, // 配置默认打开页面
     children: HomeItemList

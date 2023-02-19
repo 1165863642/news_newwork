@@ -34,14 +34,14 @@ body,
   /*滚动条里面深色条*/
   border-radius: 10px;
   box-shadow: inset 0 0 5px rgba(236, 236, 236, 0.1);
-  background: #ccc;
+  background: rgba($color: #000000, $alpha: 0.0);
 }
 
 *::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
-  box-shadow: inset 0 0 5px rgba(236, 236, 236, 0.1);
+  // box-shadow: inset 0 0 5px rgba(236, 236, 236, 0.1);
   border-radius: 10px;
-  background: #ededed;
+  background: rgba($color: #000000, $alpha: 0.0);
 }
 
 

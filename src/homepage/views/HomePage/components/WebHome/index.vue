@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top-part">
-      <img v-if="welcomeImage.length > 0" :src="getImageUrl(welcomeImage[0].imageUrl)"
+      <img v-if="welcomeImage && welcomeImage.length > 0" :src="getImageUrl(welcomeImage[0].imageUrl)"
         @click="toJournaDetailPage(welcomeImage[0])" style="width: 100%;height: 150px;">
 
       <img v-if="headlineImgNews[0]" :src="getImageUrl(headlineImgNews[0].imageUrl)"
@@ -25,10 +25,12 @@
           <el-tab-pane v-for="(item) in Bar1.list" :key="item.id" :label="item.label" :name="item.id">
           </el-tab-pane>
           <div class="news-list" v-loading="Bar1.loading">
-            <div v-for="(item, index) in Bar1.news" :key="item.newsId">
-              <el-image v-if="index == 0 && item.imageUrl" fit="fill" :src="getImageUrl(item.imageUrl)"
-                @click="toJournaDetailPage(item)" style="float: left" />
-              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+            <div v-for="(item, index) in Bar1.news.slice(0, 12)" :key="item.newsId"
+              style="display: flex;justify-content:space-between;">
+              <!-- <el-image v-if="index == 0 && item.imageUrl" fit="fill" :src="getImageUrl(item.imageUrl)"
+                @click="toJournaDetailPage(item)" style="float: left" /> -->
+              <a @click="toJournaDetailPage(item)" style="width: 400px">{{ item.title }}</a>
+              <span>[{{ (item.createTime && item.createTime.length > 0) ? item.createTime.slice(0, 7) : '' }}]</span>
             </div>
           </div>
         </el-tabs>
@@ -38,7 +40,7 @@
         <el-tabs v-model="Bar2.nameValue" type="card" @tab-click="handleClick2">
           <el-tab-pane v-for="(item) in Bar2.list" :key="item.id" :label="item.label" :name="item.id"> </el-tab-pane>
           <div class="news-list" v-loading="Bar2.loading">
-            <div v-for="(item, index) in Bar2.news" :key="item.newsId">
+            <div v-for="(item, index) in Bar2.news.slice(0, 12)" :key="item.newsId">
               <el-image v-if="index == 0 && item.imageUrl" fit="fill" :src="getImageUrl(item.imageUrl)"
                 @click="toJournaDetailPage(item)" style="float: left" />
               <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
@@ -172,7 +174,7 @@ export default {
     async handleClick1() {
       this.Bar1.loading = true
       const { code, msg, rows = [] } = await getJournaList({
-        pageSize: 6,
+        pageSize: 12,
         page: 1,
         newsType: this.Bar1.nameValue,
         reviewStatus: 1
@@ -187,7 +189,7 @@ export default {
     async handleClick2() {
       this.Bar2.loading = true
       const { code, msg, rows = [] } = await getJournaList({
-        pageSize: 6,
+        pageSize: 12,
         page: 1,
         newsType: this.Bar2.nameValue,
         reviewStatus: 1
@@ -220,6 +222,7 @@ export default {
   .el-tabs__item.is-active {
     color: $main-color !important;
     font-weight: 1000 !important;
+
   }
 }
 

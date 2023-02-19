@@ -51,7 +51,7 @@
             <div v-if="(msg.replies && msg.replies.length > 0)" class="subitem-list">
               <div v-for="(replies, i) in msg.replies" :key="replies.id" class="subitem-item">
                 <span style="color:#949494 ;">{{ getRepliesName(replies.name) }}回复: </span>
-                <p class="subitem-content">{{ replies.content }}
+                <p class="subitem-content" style="word-wrap:break-word;word-break:break-all;">{{ replies.content }}
                 </p>
                 <p class="subitem-time">回复时间：{{ replies.createTime }}</p>
               </div>

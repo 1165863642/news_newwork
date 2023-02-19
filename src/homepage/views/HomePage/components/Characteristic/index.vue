@@ -59,14 +59,46 @@
     </el-row>
 
     <el-card style="margin-top: 20px">
-      <div style="text-align: center;">
+      <div style="text-align: center;margin-bottom: 20px;">
         <span class="title">典型人物</span>
       </div>
 
-      <div class="flex-row">
-        <el-image v-for="(item, index) in news4.news.slice(0, 5)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
+
+
+      <el-carousel :interval="5000" arrow="never" height="150px">
+        <el-carousel-item>
+          <!-- <el-row :gutter="20">
+            <el-col :span="4" v-for="jtem in news4.news.slice(0, 5)" :key="jtem.newsId">
+              <img style="width: 100%;height: 130px;" :src="getImageUrl(jtem.imageUrl)">
+            </el-col>
+          </el-row> -->
+          <div class="flex-row">
+            <el-image v-for="(item, index) in news4.news.slice(0, 5)" :key="item.newsId"
+              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
+              style="width: 250px; height: 100px" />
+          </div>
+        </el-carousel-item>
+        <el-carousel-item>
+          <!-- <el-row :gutter="20">
+            <el-col :span="4" v-for="jtem in news4.news.slice(5, 10)" :key="jtem.newsId">
+              <img style="width: 100%;height: 130px;" :src="getImageUrl(jtem.imageUrl)">
+            </el-col>
+          </el-row> -->
+          <div class="flex-row">
+            <el-image v-for="(item, index) in news4.news.slice(5, 10)" :key="item.newsId"
+              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
+              style="width: 250px; height: 100px" />
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+      <!-- <div class="flex-row">
+        <el-image v-for="(item, index) in news4.news.slice(5, 10)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
           @click="toJournaDetailPage(item)" :title="item.title" style="width: 250px; height: 100px" />
-      </div>
+      </div> -->
+
+
+
+
     </el-card>
 
 
@@ -164,5 +196,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>
