@@ -13,11 +13,11 @@ export const HomeItemList = [
     component: () => import('./views/journaLism/index'),
     hidden: true
   },
-  {
-    path: '/leaveWord',
-    component: () => import('./views/leaveWord/index'),
-    hidden: true
-  }
+  // {
+  //   path: '/leaveWord',
+  //   component: () => import('./views/leaveWord/index'),
+  //   hidden: true
+  // }
 
 ]
 

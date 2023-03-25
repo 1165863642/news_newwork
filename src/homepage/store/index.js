@@ -13,30 +13,55 @@ const storeConf = {
     userInfo: null
   },
   getters: {
-    //  首页头部新闻
+    // 首页头部新闻
     honeTopNew(state) {
       const data = state.top.filter((item) => item.index === 6)
       return data[0] ? data[0].news : []
     },
-    //  头条图片新闻
-    headlineImgNews(state) {
+    //  信箱地址
+    mailboxDddress(state) {
+      const data = state.top.filter((item) => item.index === 9)
+      return data[0]?.news?.[0] || ""
+    },
+    //  头条图片新闻1
+    headlineImgNews1(state) {
       const data = state.top.filter((item) => item.index === 7)
-      return data[0] ? data[0].news : []
+      return data[0]?.news || []
+    },
+    // 头条图片新闻2
+    headlineImgNews2(state) {
+      const data = state.top.filter((item) => item.index === 8)
+      return data[0]?.news || []
     },
     //  主页模块一轮播图
     slideshowList(state) {
       const data = state.top.filter((item) => item.index === 0)
-      return data[0] ? data[0].news : []
+      return data[0]?.news || []
     },
     //  主页模块二
     navigationBar1(state) {
       const data = state.top.filter((item) => item.index === 1) || []
       return data
     },
-    //  主页模块三
-    navigationBar2(state) {
+    //  主页模块三-1
+    navigationBar21(state) {
       const data = state.top.filter((item) => item.index === 2) || []
-      return data
+      return data[0] || null
+    },
+    //  主页模块三-2
+    navigationBar22(state) {
+      const data = state.top.filter((item) => item.index === 10) || []
+      return data[0] || null
+    },
+    //  主页模块三-3
+    navigationBar23(state) {
+      const data = state.top.filter((item) => item.index === 11) || []
+      return data[0] || null
+    },
+    //  人物肖像
+    humanPortrait(state) {
+      const data = state.top.filter((item) => item.index === 12) || []
+      return data[0]?.news || []
     },
     //  主页模块四报刊
     journalList(state) {
@@ -68,11 +93,19 @@ const storeConf = {
       const data = state.other.filter((item) => item.id === 4) || []
       return data
     },
-    // 展示墙
-    slideshow(state) {
+    // 文化角
+    slideshow1(state) {
       const data = state.top.filter((item) => item.index === 5)
-      return data[0] ? data[0].news : []
+      return data[0] || null
     },
+    slideshow2(state) {
+      const data = state.top.filter((item) => item.index === 13)
+      return data[0] || null
+    },
+    slideshow3(state) {
+      const data = state.top.filter((item) => item.index === 14)
+      return data[0] || null
+    }
   },
   mutations: {
     setOther(state, other) {

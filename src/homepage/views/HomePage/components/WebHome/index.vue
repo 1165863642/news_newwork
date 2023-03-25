@@ -1,14 +1,26 @@
 <template>
   <div>
     <div class="top-part">
-      <img v-if="welcomeImage && welcomeImage.length > 0" :src="getImageUrl(welcomeImage[0].imageUrl)"
-        @click="toJournaDetailPage(welcomeImage[0])" style="width: 100%;height: 150px;">
+      <!-- <img v-if="welcomeImage && welcomeImage.length > 0" :src="getImageUrl(welcomeImage[0].imageUrl)"
+        @click="toJournaDetailPage(welcomeImage[0])" style="width: 100%;height: 150px;"> -->
 
-      <img v-if="headlineImgNews[0]" :src="getImageUrl(headlineImgNews[0].imageUrl)"
-        @click="toJournaDetailPage(headlineImgNews[0])" style="width: 100%;height: 80px;margin-top: 2px;">
+      <el-row :gutter="10" style="margin-top: 5px;">
+        <el-col :span="2" v-for="item in welcomeImage.slice(0, 12)" :key="item.rowId"
+          @click.native="toJournaDetailPage(item)" style="cursor: pointer;">
+          <img :src="getImageUrl(item.imageUrl)" style="width: 80px;height: 80px;">
+          <div style="text-align: center;color: #3a523d;">{{ item.title }}</div>
+        </el-col>
+      </el-row>
 
-      <img v-if="headlineImgNews[1]" :src="getImageUrl(headlineImgNews[1].imageUrl)"
-        @click="toJournaDetailPage(headlineImgNews[1])" style="width: 100%;height: 80px;margin-top: 2px;">
+      <el-carousel height="80px" indicator-position="none">
+        <el-carousel-item v-for="item in headlineImgNews1" :key="item.newsId">
+          <img :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)"
+            style="width: 100%;height: 80px;margin-top: 2px;">
+        </el-carousel-item>
+      </el-carousel>
+
+      <img v-if="headlineImgNews2[0]" :src="getImageUrl(headlineImgNews2[0].imageUrl)"
+        @click="toJournaDetailPage(headlineImgNews2[0])" style="width: 100%;height: 80px;margin-top: 2px;">
 
     </div>
     <el-row :gutter="20">
@@ -26,7 +38,7 @@
           </el-tab-pane>
           <div class="news-list" v-loading="Bar1.loading">
             <div v-for="(item, index) in Bar1.news.slice(0, 12)" :key="item.newsId"
-              style="display: flex;justify-content:space-between;">
+              style="display: flex;justify-content:space-between;margin-right: 10px;">
               <!-- <el-image v-if="index == 0 && item.imageUrl" fit="fill" :src="getImageUrl(item.imageUrl)"
                 @click="toJournaDetailPage(item)" style="float: left" /> -->
               <a @click="toJournaDetailPage(item)" style="width: 400px">{{ item.title }}</a>
@@ -36,7 +48,7 @@
         </el-tabs>
 
       </el-col>
-      <el-col :span="12" class="col-item">
+      <!-- <el-col :span="12" class="col-item">
         <el-tabs v-model="Bar2.nameValue" type="card" @tab-click="handleClick2">
           <el-tab-pane v-for="(item) in Bar2.list" :key="item.id" :label="item.label" :name="item.id"> </el-tab-pane>
           <div class="news-list" v-loading="Bar2.loading">
@@ -48,8 +60,8 @@
           </div>
         </el-tabs>
 
-      </el-col>
-      <el-col :span="12" class="col-item">
+      </el-col> -->
+      <!-- <el-col :span="12" class="col-item">
         <el-row :gutter="10">
           <el-col :span="10">
             <img :src="getImageUrl(journalList[0] ? journalList[0].imageUrl : '')" style="width: 100%;height:400px"
@@ -63,8 +75,9 @@
             </el-row>
           </el-col>
         </el-row>
-      </el-col>
+      </el-col> -->
     </el-row>
+    <new-view />
   </div>
 </template>
 
@@ -73,8 +86,10 @@
 
 import { mapGetters } from 'vuex';
 import { getImageUrl, toJournaDetailPage, getJournaList } from "@/homepage/api/newsType"
+import NewView from "./new.vue"
 export default {
   name: 'WebHome',
+  components: { NewView },
   data() {
     return {
       Bar1: {
@@ -123,18 +138,14 @@ export default {
   },
   mounted() {
     this.init1(this.navigationBar1);
-    this.init2(this.navigationBar2);
   },
   watch: {
     navigationBar1(newValue, oldValue) {
       this.init1(newValue)
     },
-    navigationBar2(newValue, oldValue) {
-      this.init2(newValue)
-    }
   },
   computed: {
-    ...mapGetters(['slideshowList', 'headlineImgNews', 'navigationBar1', 'navigationBar2', 'journalList', 'welcomeImage']),
+    ...mapGetters(['slideshowList', 'headlineImgNews1', 'headlineImgNews2', 'navigationBar1', 'journalList', 'welcomeImage']),
   },
   methods: {
     getImageUrl,

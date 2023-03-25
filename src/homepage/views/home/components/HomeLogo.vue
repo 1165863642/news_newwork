@@ -41,7 +41,7 @@ export default {
 }
 
 .news-item {
-  height: 70px;
+  height: 127px;
 
   img {
     height: 100%;

@@ -12,58 +12,64 @@
             </div>
           </div>
           <div class="flex-row">
-            <el-image v-for="(item, index) in news1.news.slice(4, 6)" :key="item.newsId"
-              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
-              style="width: 200px; height: 100px" />
+            <el-image v-for="(item, index) in news1.news.slice(4, 6)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
+              @click="toJournaDetailPage(item)" :title="item.title" style="width: 200px; height: 100px" />
           </div>
         </el-card>
 
       </el-col>
-
-
       <el-col :span="8" class="container">
         <el-card>
           <span class="title">{{ news2.label }}</span>
-          <div class="news-list">
-            <div v-for="(item, index) in news2.news.slice(0, 4)" :key="item.newsId">
-              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+          <div class="qwe-qwe">
+            <div v-if="news2.news[0]" class="azxc-zxc">
+              <el-image :src="getImageUrl(news2.news[0].imageUrl)" @click="toJournaDetailPage(news2.news[0])"
+                :title="news2.news[0].title" />
+            </div>
+            <div class="asd-asd">
+              <div v-for="(item, index) in news2.news.slice(1, 8)" :key="item.newsId">
+                <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+              </div>
             </div>
           </div>
-          <div class="flex-row">
-            <el-image v-for="(item, index) in news2.news.slice(4, 6)" :key="item.newsId"
-              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
-              style="width: 200px; height: 100px" />
-          </div>
         </el-card>
-
       </el-col>
-
-
       <el-col :span="8" class="container">
         <el-card>
           <span class="title">{{ news3.label }}</span>
-          <div class="news-list">
-            <div v-for="(item, index) in news3.news.slice(0, 4)" :key="item.newsId">
-              <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+          <div class="qwe-qwe">
+            <div v-if="news3.news[0]" class="azxc-zxc">
+              <el-image :src="getImageUrl(news3.news[0].imageUrl)" @click="toJournaDetailPage(news3.news[0])"
+                :title="news3.news[0].title" />
+            </div>
+            <div class="asd-asd">
+              <div v-for="(item, index) in news3.news.slice(1, 8)" :key="item.newsId">
+                <a @click="toJournaDetailPage(item)">{{ item.title }}</a>
+              </div>
             </div>
           </div>
-          <div class="flex-row">
-            <el-image v-for="(item, index) in news3.news.slice(4, 6)" :key="item.newsId"
-              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
-              style="width: 200px; height: 100px" />
-          </div>
-
         </el-card>
-
       </el-col>
     </el-row>
 
     <el-card style="margin-top: 20px">
+      <div class="human-portrait">
+        <div class="portrait-item" v-for="(item, index) in humanPortrait.slice(0, 7)" :key="item.newsId"
+          @click="toJournaDetailPage(item)">
+          <img :src="getImageUrl(item.imageUrl)" />
+        </div>
+      </div>
+      <div class="human-portrait">
+        <div class="portrait-item" v-for="(item, index) in humanPortrait.slice(7, 14)" :key="item.newsId"
+          @click="toJournaDetailPage(item)">
+          <img :src="getImageUrl(item.imageUrl)" />
+        </div>
+      </div>
+    </el-card>
+    <el-card style="margin-top: 20px">
       <div style="text-align: center;margin-bottom: 20px;">
         <span class="title">典型人物</span>
       </div>
-
-
 
       <el-carousel :interval="5000" arrow="never" height="150px">
         <el-carousel-item>
@@ -73,9 +79,11 @@
             </el-col>
           </el-row> -->
           <div class="flex-row">
-            <el-image v-for="(item, index) in news4.news.slice(0, 5)" :key="item.newsId"
-              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
-              style="width: 250px; height: 100px" />
+            <div v-for="(item, index) in news4.news.slice(0, 5)" :key="item.newsId" @click="toJournaDetailPage(item)"
+              style="width: 250px; overflow: hidden; ">
+              <el-image :src="getImageUrl(item.imageUrl)" :title="item.title" style="width: 250px; height: 100px" />
+              <div class="name">{{ item.title }}</div>
+            </div>
           </div>
         </el-carousel-item>
         <el-carousel-item>
@@ -85,9 +93,12 @@
             </el-col>
           </el-row> -->
           <div class="flex-row">
-            <el-image v-for="(item, index) in news4.news.slice(5, 10)" :key="item.newsId"
-              :src="getImageUrl(item.imageUrl)" @click="toJournaDetailPage(item)" :title="item.title"
-              style="width: 250px; height: 100px" />
+            <div v-for="(item, index) in news4.news.slice(5, 10)" :key="item.newsId" @click="toJournaDetailPage(item)"
+              style="width: 250px; overflow: hidden; ">
+              <el-image :src="getImageUrl(item.imageUrl)" :title="item.title" style="width: 250px; height: 100px" />
+              <div class="name">{{ item.title }}</div>
+            </div>
+
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -95,10 +106,6 @@
         <el-image v-for="(item, index) in news4.news.slice(5, 10)" :key="item.newsId" :src="getImageUrl(item.imageUrl)"
           @click="toJournaDetailPage(item)" :title="item.title" style="width: 250px; height: 100px" />
       </div> -->
-
-
-
-
     </el-card>
 
 
@@ -144,7 +151,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['featureClassBar']),
+    ...mapGetters(['featureClassBar', 'humanPortrait']),
   },
   methods: {
     getImageUrl, toJournaDetailPage,
@@ -163,6 +170,31 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../../mian.scss";
+
+.qwe-qwe {
+  display: flex;
+  margin-top: 20px;
+
+  .azxc-zxc {
+    width: 140px;
+    flex-shrink: 0;
+
+    .el-image {
+      width: 140px;
+      height: 250px
+    }
+  }
+
+
+  .asd-asd {
+    width: calc(100% - 140px);
+    text-align: left;
+
+    div+div {
+      margin-top: 10px;
+    }
+  }
+}
 
 .container {
   text-align: center;
@@ -197,5 +229,32 @@ export default {
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.name {
+  color: #3a523d;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.human-portrait {
+  margin-bottom: 10px;
+  display: flex;
+
+  .portrait-item {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+
+    img {
+      width: 180px;
+      height: 90px;
+    }
+
+    .name {
+      color: #3a523d;
+    }
+  }
 }
 </style>

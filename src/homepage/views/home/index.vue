@@ -1,23 +1,27 @@
 <template>
   <div v-loading="loading" class="home-main">
     <el-container style="height: 100%;">
-      <el-header height="90px">
-
+      <el-header height="127px">
         <div class="horizontal-center">
-          <Home-Login />
+          <!-- <Home-Login /> -->
           <Home-Logo />
         </div>
       </el-header>
       <el-main :style="defaultHeight">
         <div style="display: flex;flex-direction:column;height: 100%;position: relative;">
           <div class="navigation-bar" style="position:sticky;top:0;z-index: 10;">
-            <el-row class="horizontal-center">
+            <!-- <el-row class="horizontal-center">
               <el-col v-for="(item) in navigationBarList" :key="item.id" :span="3"
                 @click.native="goPageModule(item.id)">
                 <div class="navigation-bar-item">{{ item.title }}</div>
               </el-col>
-            </el-row>
-
+            </el-row> -->
+            <div class="horizontal-center navigation-chunk">
+              <div v-for="(item) in navigationBarList" :key="item.id" class="navigation-item"
+                @click="goPageModule(item.id)">
+                <div class="navigation-bar-item">{{ item.title }}</div>
+              </div>
+            </div>
           </div>
           <div class="horizontal-center" style="background-color: #fff;flex: 1;overflow-y: auto;">
             <router-view />
@@ -33,15 +37,15 @@
       </el-footer> -->
     </el-container>
   </div>
-
 </template>
 
 <script>
 
 import HomeLogo from './components/HomeLogo'
 import HomeLogin from './components/HomeLogin'
-import { getHome } from '@/homepage/api/newsType'
+import { getHome, toJournaDetailPage } from '@/homepage/api/newsType'
 import { getToken } from '@/homepage/api/auth'
+import { mapGetters } from 'vuex';
 export default {
   name: 'Home',
   components: { HomeLogo, HomeLogin },
@@ -98,6 +102,9 @@ export default {
       this.$store.commit("setToken", token);
     }
   },
+  computed: {
+    ...mapGetters(['mailboxDddress']),
+  },
   methods: {
     async init() {
 
@@ -114,7 +121,7 @@ export default {
           id: 'WebHome',
           title: '网站首页'
         },
-        ...parentType.slice(0, 6).map((item) => {
+        ...parentType.slice(0, 5).map((item) => {
           return {
             id: `journaLism/${item.label}`,
             title: item.label
@@ -128,7 +135,12 @@ export default {
       }
     },
     goPageModule(moduleId) {
-      this.$router.push(`/${moduleId}`)
+      if (moduleId != "leaveWord") {
+        this.$router.push(`/${moduleId}`)
+      } else {
+        console.log("this.mailboxDddress", this.mailboxDddress)
+        toJournaDetailPage(this.mailboxDddress);
+      }
     },
     // 定义方法，获取高度减去头尾
     getHeight() {
@@ -197,8 +209,15 @@ $main-color: #3a523d;
     line-height: 45px;
     height: 45px;
     cursor: pointer;
-    border: #fff 1px solid;
     font-weight: 1000;
+  }
+}
+
+.navigation-chunk {
+  display: flex;
+
+  .navigation-item {
+    flex: 1;
   }
 }
 </style>

@@ -4,7 +4,7 @@
       <div class="module-title">文化角</div>
     </el-divider>
 
-    <el-carousel :interval="10000" arrow="never" height="150px">
+    <!-- <el-carousel :interval="10000" arrow="never" height="150px">
       <el-carousel-item v-for="item in slideshowList">
         <el-row :gutter="20">
           <el-col :span="4" v-for="jtem in item" :key="jtem.newsId">
@@ -12,8 +12,56 @@
           </el-col>
         </el-row>
       </el-carousel-item>
-    </el-carousel>
+    </el-carousel> -->
+    <!-- <el-row :gutter="20">
+      <el-col :span="12" v-for="item in slideshow" :key="item.newId"
+        style="margin-bottom: 10px;cursor: pointer;text-align: center;" @click.native="toJournaDetailPage(item)">
+        <img style="width: 500px;height: 200px;" :src="getImageUrl(item.imageUrl)">
+        <div>{{ item.title }}</div>
+      </el-col>
+    </el-row> -->
 
+
+    <el-row :gutter="20">
+      <el-col :span="8" class="container" v-if="slideshow1">
+        <el-card>
+          <span class="title">{{ slideshow1.label }}</span>
+          <el-row :gutter="10" style="margin-top: 20px;">
+            <el-col :span="12" v-for="(item, index) in slideshow1.news.slice(0, 6)"
+              @click.native="toJournaDetailPage(item)" style="margin-bottom: 10px;cursor: pointer;" :key="item.newsId">
+              <img :src="getImageUrl(item.imageUrl)" style="width: 200px;height: 100px;" />
+              <div style="color: #3a523d;">{{ item.title }}</div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+
+
+      <el-col :span="8" class="container" v-if="slideshow2">
+        <el-card>
+          <span class="title">{{ slideshow2.label }}</span>
+          <el-row :gutter="10" style="margin-top: 20px;">
+            <el-col :span="12" v-for="(item, index) in slideshow2.news.slice(0, 6)"
+              @click.native="toJournaDetailPage(item)" style="margin-bottom: 10px;cursor: pointer;" :key="item.newsId">
+              <img :src="getImageUrl(item.imageUrl)" style="width: 200px;height: 100px;" />
+              <div style="color: #3a523d;">{{ item.title }}</div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+      <el-col :span="8" class="container" v-if="slideshow3">
+        <el-card>
+          <span class="title">{{ slideshow3.label }}</span>
+          <el-row :gutter="10" style="margin-top: 20px;">
+            <el-col :span="12" v-for="(item, index) in slideshow3.news.slice(0, 6)"
+              @click.native="toJournaDetailPage(item)" style="margin-bottom: 10px;cursor: pointer;" :key="item.newsId">
+              <img :src="getImageUrl(item.imageUrl)" style="width: 200px;height: 100px;" />
+              <div style="color: #3a523d;">{{ item.title }}</div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -25,37 +73,51 @@ export default {
   name: 'Slideshow',
   data() {
     return {
-      slideshowList: []
+
     }
   },
   mounted() {
-    this.init(this.slideshow)
+
   },
   watch: {
-    slideshow(newValue, oldValue) {
-      this.init(newValue)
-    },
+
   },
   computed: {
-    ...mapGetters(['slideshow']),
+    ...mapGetters(['slideshow1', 'slideshow2', 'slideshow3']),
   },
   methods: {
     getImageUrl,
     toJournaDetailPage,
-    init(list) {
-      this.slideshowList = this.spArr(list, 6);
-    },
-    spArr(arr, num) { //arr是你要分割的数组，num是以几个为一组
-      let newArr = [] //首先创建一个新的空数组。用来存放分割好的数组
-      for (let i = 0; i < arr.length;) { //注意：这里与for循环不太一样的是，没有i++
-        newArr.push(arr.slice(i, i += num));
-      }
-      return newArr
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../../../mian.scss";
+
+.container {
+  text-align: center;
+}
+
+.title {
+  border: $main-color 2px solid;
+  padding: 5px 26px;
+  border-radius: 2px;
+}
+
+.news-list {
+  margin-top: 20px;
+  text-align: left;
+
+  div+div {
+    margin-top: 10px;
+  }
+}
+
+
+
+.el-divider__text {
+  font-size: 25px;
+  background-color: #fff;
+}
 </style>
