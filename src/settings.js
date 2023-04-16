@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '中国梦强军梦',
+  title: '31618部队党委机关网',
 
   /**
    * @type {boolean} true | false

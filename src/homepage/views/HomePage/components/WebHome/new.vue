@@ -70,7 +70,8 @@ export default {
 }
 
 .title {
-  border: $main-color 2px solid;
+  color: #fff;
+  background-color: $main-color;
   padding: 5px 26px;
   border-radius: 2px;
 }

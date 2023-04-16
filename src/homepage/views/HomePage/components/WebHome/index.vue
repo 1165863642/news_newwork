@@ -41,7 +41,7 @@
               style="display: flex;justify-content:space-between;margin-right: 10px;">
               <!-- <el-image v-if="index == 0 && item.imageUrl" fit="fill" :src="getImageUrl(item.imageUrl)"
                 @click="toJournaDetailPage(item)" style="float: left" /> -->
-              <a @click="toJournaDetailPage(item)" style="width: 400px">{{ item.title }}</a>
+              <a @click="toJournaDetailPage(item)" style="width: 430px">{{ item.title }}</a>
               <span>[{{ (item.createTime && item.createTime.length > 0) ? item.createTime.slice(0, 7) : '' }}]</span>
             </div>
           </div>

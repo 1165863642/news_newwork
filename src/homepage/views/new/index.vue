@@ -21,6 +21,11 @@
         </div>
       </el-main>
     </el-container>
+    <div class="put_records" style="padding-bottom: 20px;">
+      <el-divider></el-divider>
+      <p style="font-size: 18px;">备案号：LJ2620181025001 开设单位：中国人民解放军陆军31618部队 联系人：李洋 联系电话：0611-969230</p>
+      <p style="font-size: 18px;"> 中国人民解放军陆军31618部队强军网 版权所有2022-2023</p>
+    </div>
   </div>
 </template>
 
@@ -104,6 +109,7 @@ export default {
   .news-time {
     padding: 10px 0;
     color: #888;
+    text-align: center;
   }
 
   .news-img {
@@ -117,6 +123,12 @@ export default {
 
   .news-com {
     padding: 10px 0;
+  }
+}
+
+.ql-editor {
+  P {
+    margin-bottom: 15px;
   }
 }
 </style>
