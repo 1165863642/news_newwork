@@ -155,7 +155,6 @@ export default {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-
 }
 
 .home-main {
