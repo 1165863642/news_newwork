@@ -128,7 +128,11 @@ export default {
 
 .ql-editor {
   P {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+
+    span {
+      line-height: 35px;
+    }
   }
 }
 </style>
